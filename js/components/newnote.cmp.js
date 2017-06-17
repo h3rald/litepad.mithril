@@ -2,7 +2,6 @@ import { ActionBarComponent } from './actionbar.cmp.js';
 import { CodeMirror } from '../../vendor/js/markdown.js';
 import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
-import { ModalComponent } from './modal.cmp.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { NotificationService } from '../services/notification.svc.js';
 import { m } from '../../vendor/js/mithril.js';
@@ -14,7 +13,6 @@ export class NewNoteComponent {
     this.notification = new NotificationService();
     this.note = {title: '', body: ''};
     this.editor = null;
-    this.error = false;
     this.actions = [
       {
         label: 'Cancel',
@@ -31,8 +29,7 @@ export class NewNoteComponent {
         callback: () => {
           this.note.body = this.editor.getValue();
           if (this.note.body === '' || this.note.title === '') {
-            this.error = true;
-            m.redraw();
+            this.notification.error('Title and body text cannot be empty.');
           } else {
             this.store.create(this.note).then((data) => {
               this.notification.success('Note created successfully.');
@@ -64,27 +61,6 @@ export class NewNoteComponent {
     }
   }
 
-  modal() {
-    if (this.error) {
-      return m(ModalComponent, {
-        title: 'Unable to save note',
-        message: 'Title and body text cannot be empty.',
-        buttons: [
-          {
-            title: 'OK',
-            icon: 'tick',
-            type: 'primary',
-            callback: () => {
-              this.error = false;
-              m.redraw();
-            }
-          }
-        ]
-      });
-    }
-    return '';
-  }
-
   view(){
     const title = m('input#note-title', {
       placeholder: 'Enter title here...',
@@ -101,7 +77,6 @@ export class NewNoteComponent {
           oncreate: () => { this.highlight(); },
         }, this.note.body)
       ]),
-      this.modal(),
       m(FooterComponent)
     ]);
   }

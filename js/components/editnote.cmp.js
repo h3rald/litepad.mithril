@@ -16,7 +16,6 @@ export class EditNoteComponent {
     this.id = m.route.param('id');
     this.note = {body: ""};
     this.editor = null;
-    this.error = false;
     this.load();
     this.actions = [
       {
@@ -34,8 +33,7 @@ export class EditNoteComponent {
         callback: () => {
           this.note.body = this.editor.getValue();
           if (this.note.body === '' || this.note.title === '') {
-            this.error = true;
-            m.redraw();
+            this.notification.error('Title and body text cannot be empty.');
           } else {
             this.store.save(this.note).then(() => {
               this.notification.success('Note modified successfully.');
@@ -73,27 +71,6 @@ export class EditNoteComponent {
     }
   }
 
-   modal() {
-    if (this.error) {
-      return m(ModalComponent, {
-        title: 'Unable to save note',
-        message: 'Title and body text cannot be empty.',
-        buttons: [
-          {
-            title: 'OK',
-            icon: 'tick',
-            type: 'primary',
-            callback: () => {
-              this.error = false;
-              m.redraw();
-            }
-          }
-        ]
-      });
-    }
-    return '';
-  }
-
   view(){
     const title = m('input#note-title', {
       placeholder: 'Enter title here...',
@@ -109,7 +86,6 @@ export class EditNoteComponent {
           onupdate: () => { this.highlight(); },
         }, this.note.body)
       ]),
-      this.modal(),
       m(FooterComponent)
     ]);
   }
