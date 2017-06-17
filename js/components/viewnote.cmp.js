@@ -4,6 +4,7 @@ import { LiteStoreService } from '../services/litestore.svc.js';
 import { ModalComponent } from './modal.cmp.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
+import { NotificationService } from '../services/notification.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 import { marked } from '../../vendor/js/marked.js';
 
@@ -11,8 +12,10 @@ export class ViewNoteComponent {
 
   constructor(){
     this.store = new LiteStoreService();
+    this.notification = new NotificationService();
     this.id = m.route.param('id');
     this.note = {body: ""};
+    this.message = {};
     this.delete = false;
     this.load();
     marked.setOptions({
@@ -80,11 +83,11 @@ export class ViewNoteComponent {
             type: 'primary',
             callback: () => {
               this.store.delete(this.note).then(() => {
+                this.notification.success('Note deleted successfully.');
                 m.route.set('/home');
               }).catch((e) => {
-                console.warn(e); // eslint-disable-line no-console
                 this.delete = false;
-                m.redraw();
+                this.notification.error(JSON.parse(e.message).error);
               });
             }
           }

@@ -4,12 +4,14 @@ import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
 import { ModalComponent } from './modal.cmp.js';
 import { NavBarComponent } from './navbar.cmp.js';
+import { NotificationService } from '../services/notification.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
 export class NewNoteComponent {
 
   constructor(){
     this.store = new LiteStoreService();
+    this.notification = new NotificationService();
     this.note = {title: '', body: ''};
     this.editor = null;
     this.error = false;
@@ -33,9 +35,10 @@ export class NewNoteComponent {
             m.redraw();
           } else {
             this.store.create(this.note).then((data) => {
+              this.notification.success('Note created successfully.');
               m.route.set(`/view/${data.id}`);
             }).catch((e) => {
-              console.warn(e); // eslint-disable-line no-console
+              this.notification.error(JSON.parse(e.message).error);
             });
           }
         }

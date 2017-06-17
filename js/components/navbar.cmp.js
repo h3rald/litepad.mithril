@@ -6,24 +6,6 @@ export class NavBarComponent {
   constructor(){
     this.searching = false;
     this.query = '';
-    this.resetIcon();
-  }
-  
-  resetIcon() {
-    const state = m.route.get();
-    if (state.match(/^\/settings/)) {
-      this.link = '/home';
-      this.icon = 'cross';
-    } else {
-      this.link = '/settings';
-      this.icon = 'more-vert';
-    }
-  }
-  
-  clickIcon() {
-    this.resetIcon();
-    this.icon = 'cross';
-    m.route.set(this.link);
   }
   
   handleKeyPress(event){
@@ -53,16 +35,13 @@ export class NavBarComponent {
   
   buildStatusBar(){
     const logo = m('section.navbar-section', [
-      m('span.btn.btn-link', {
-        onclick: () => { this.clickIcon(); }
-      }, [m(`i.icon.icon-${this.icon}`)]),
       m(`span.logo.btn.btn-link`, {
-        onclick: () => { m.route.set('/home/')}
+        onclick: () => { m.route.set('/home/'); }
       }, 'LitePad')
     ]);
     const searchLink = m('section.navbar-section', [
       m('span.btn.btn-link', {
-        onclick: (e) => { 
+        onclick: () => { 
           this.toggleSearch(); 
         }
       }, [m('i.icon.icon-search')])

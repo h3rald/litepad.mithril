@@ -69,13 +69,22 @@ header {
 footer {
   text-align: center;
   margin: auto;
-  height: 25px;
+  height: 30px;
   font-size: 80%;
 }
 
 .main-content, .CodeMirror {
   height: calc(100vh - 150px);
   overflow-y: scroll;
+}
+
+@media only screen and (max-width : 480px) {
+  .main-content, .CodeMirror {
+    height: calc(100vh - 190px);
+  }
+  .actionbar {
+    height: 90px;
+  }
 }
 
 .actions {
@@ -92,4 +101,41 @@ footer {
 
 #note-title {
   width: 100%;
+}
+
+#notification {
+  visibility: hidden; 
+  min-width: 250px; 
+  margin-left: -125px; 
+  position: fixed; 
+  z-index: 1;
+  left: 50%;
+  width: auto;
+  bottom: 35px;
+}
+
+#notification.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 1.5s;
+  animation: fadein 0.5s, fadeout 0.5s 1.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 35px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 35px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 35px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 35px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }

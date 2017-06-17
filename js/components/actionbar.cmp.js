@@ -22,7 +22,7 @@ export class ActionBarComponent {
   }
 
   view() {
-    return m('.container', 
+    return m('.actionbar.container', 
       m('.columns', [
         m('h1.col-xs-12.col-8', this.title),
         m('.btn-group.btn-group-block.col-xs-12.col-4.actions', this.actions.map(this.action))

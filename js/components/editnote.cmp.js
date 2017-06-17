@@ -5,12 +5,14 @@ import { LiteStoreService } from '../services/litestore.svc.js';
 import { ModalComponent } from './modal.cmp.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
+import { NotificationService } from '../services/notification.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
 export class EditNoteComponent {
 
   constructor(){
     this.store = new LiteStoreService();
+    this.notification = new NotificationService();
     this.id = m.route.param('id');
     this.note = {body: ""};
     this.editor = null;
@@ -36,9 +38,10 @@ export class EditNoteComponent {
             m.redraw();
           } else {
             this.store.save(this.note).then(() => {
+              this.notification.success('Note modified successfully.');
               m.route.set(`/view/${this.id}`);
             }).catch((e) => {
-              console.warn(e); // eslint-disable-line no-console
+              this.notification.error(JSON.parse(e.message).error);
             });
           }
         }
