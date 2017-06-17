@@ -1,0 +1,91 @@
+.tile {
+  background: #eff1fa;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.tile:hover {
+  background: #c9cfee;
+}
+
+.tile-icon {
+    font-size: 25px;
+    width: 35px;
+    text-align: center;
+    margin: 0;
+    margin-left: 3px;
+    background: #5764c6;
+    color: #fff;
+}
+
+.tile-action i {
+  font-size: 25px;
+}
+
+article {
+  padding: 0 10px;
+}
+
+main {
+  margin-top: 50px;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.6em;
+}
+
+h3 {
+  font-size: 1.4em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 , h6{
+  font-size: 1.1em;
+}
+
+h6 {
+  font-style: italic;
+}
+
+header {
+  width: 100%;
+  padding: 8px;
+  position: fixed;
+  top: 0;
+  background: #eff1fa;
+}
+
+.searchbar {
+  width: 100%;
+}
+
+footer {
+  text-align: center;
+  margin: auto;
+  height: 25px;
+  font-size: 80%;
+}
+
+.content {
+  height: calc(100vh - 150px);
+  overflow-y: scroll;
+}
+
+.actions {
+  justify-content: flex-end;
+}
+
+.btn.action {
+  max-width: 80px;
+}
+
+.btn.action i {
+  font-size: 1.2em;
+}
