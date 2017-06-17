@@ -12,7 +12,7 @@ export class ActionBarComponent {
   }
 
   action(data) {
-    const btnClass = (data.main) ? 'btn-primary' : 'btn-link'
+    const btnClass = (data.main) ? 'btn-primary' : 'btn-link';
     return m(`button.btn.${btnClass}.action`, {
       onclick: data.callback
     }, [

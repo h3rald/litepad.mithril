@@ -1,8 +1,8 @@
+import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
+import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
 import { m } from '../../vendor/js/mithril.js';
-import { NavBarComponent } from './navbar.cmp.js';
-import { FooterComponent } from './footer.cmp.js';
 
 export class HomeComponent {
 
@@ -14,7 +14,7 @@ export class HomeComponent {
 
   load(){
     this.store.getAll().then((notes) => {
-      this.notes = notes.results.map(note => new Note(note));
+      this.notes = notes.results.map((note) => new Note(note));
     });
   }
 
@@ -39,6 +39,6 @@ export class HomeComponent {
         m('.content', this.notes.map(this.tile))
       ]),
       m(FooterComponent)
-    ])
+    ]);
   }
 }

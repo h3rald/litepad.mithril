@@ -1,9 +1,9 @@
-import { LiteStoreService } from '../services/litestore.svc.js';
-import { Note } from '../models/note.js';
-import { m } from '../../vendor/js/mithril.js';
-import { NavBarComponent } from './navbar.cmp.js';
 import { ActionBarComponent } from './actionbar.cmp.js';
 import { FooterComponent } from './footer.cmp.js';
+import { LiteStoreService } from '../services/litestore.svc.js';
+import { NavBarComponent } from './navbar.cmp.js';
+import { Note } from '../models/note.js';
+import { m } from '../../vendor/js/mithril.js';
 import { marked } from '../../vendor/js/marked.js';
 
 export class ViewNoteComponent {
@@ -40,7 +40,7 @@ export class ViewNoteComponent {
           m.route.set(`/edit/${this.id}`);
         }
       }
-    ]
+    ];
   }
 
   load(){
@@ -57,6 +57,6 @@ export class ViewNoteComponent {
         m('.content', m.trust(marked(this.note.body)))
       ]),
       m(FooterComponent)
-    ])
+    ]);
   }
 }

@@ -27,7 +27,7 @@ export class NavBarComponent {
   }
   
   handleKeyPress(event){
-    if (event.charCode == 13){
+    if (event.charCode === 13){
       this.search();
     }
   }
@@ -38,7 +38,7 @@ export class NavBarComponent {
 
   search() {
     searching = false;
-    const query = this.query;
+    const { query } = this;
     this.clearSearch();
     m.route.set('/search/:query', {query: query});
   }
@@ -93,10 +93,10 @@ export class NavBarComponent {
       backLink,
       textbox,
       searchLink
-    ]) 
+    ]);
   }
   
-  view(vnode){
+  view(){
     const contents = (searching) ? this.buildSearchBar() : this.buildStatusBar();
     return m('header.navbar', contents);
   }

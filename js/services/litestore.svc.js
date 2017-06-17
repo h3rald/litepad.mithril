@@ -1,7 +1,7 @@
-import { m } from '../../vendor/js/mithril.js';
 import { ConfigService } from './config.svc.js';
+import { m } from '../../vendor/js/mithril.js';
 
-let instance;
+let instance = null;
 export class LiteStoreService {
 
   constructor(){
@@ -53,7 +53,7 @@ export class LiteStoreService {
     return m.request({
       method: 'GET',
       url: `${this.config.settings.api}/docs/litepad/notes/?search=${query}`
-    })
+    });
   }
  
 }
