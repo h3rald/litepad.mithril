@@ -1,6 +1,7 @@
 import { ActionBarComponent } from './actionbar.cmp.js';
 import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
+import { ModalComponent } from './modal.cmp.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
 import { m } from '../../vendor/js/mithril.js';
@@ -12,6 +13,7 @@ export class ViewNoteComponent {
     this.store = new LiteStoreService();
     this.id = m.route.param('id');
     this.note = {body: ""};
+    this.delete = false;
     this.load();
     marked.setOptions({
       renderer: new marked.Renderer(),
@@ -33,6 +35,14 @@ export class ViewNoteComponent {
         }
       },
       {
+        label: 'Delete',
+        main: false,
+        icon: 'trash',
+        callback: () => {
+          this.delete = true;
+        }
+      },
+      {
         label: 'Edit',
         main: true,
         icon: 'edit',
@@ -49,6 +59,41 @@ export class ViewNoteComponent {
     });
   }
 
+  modal() {
+    if (this.delete) {
+      return m(ModalComponent, {
+        title: 'Delete Note',
+        message: 'Do you want to really delete this note?',
+        buttons: [
+          {
+            title: 'Cancel',
+            icon: 'cancel',
+            type: 'link',
+            callback: () => {
+              this.delete = false;
+              m.redraw();
+            }
+          },
+          {
+            title: 'Delete',
+            icon: 'trash',
+            type: 'primary',
+            callback: () => {
+              this.store.delete(this.note).then(() => {
+                m.route.set('/home');
+              }).catch((e) => {
+                console.warn(e); // eslint-disable-line no-console
+                this.delete = false;
+                m.redraw();
+              });
+            }
+          }
+        ]
+      });
+    }
+    return '';
+  }
+
   view(){
     return m('article.notes.columns', [
       m(NavBarComponent),
@@ -56,6 +101,7 @@ export class ViewNoteComponent {
         m(ActionBarComponent, {title: this.note.title, actions: this.actions}),
         m('.main-content', m.trust(marked(this.note.body)))
       ]),
+      this.modal(),
       m(FooterComponent)
     ]);
   }
