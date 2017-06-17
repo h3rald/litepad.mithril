@@ -30,8 +30,8 @@ export class HomeComponent {
   }
 
   tile(note) {
-    const modified = (note.modified) ? ` &bull; modified ${note.modified}` : '';
-    const subtitle = `${note.words()} &mdash; created ${note.created}${modified}`;
+    const modified = note.modified || note.created;
+    const subtitle = `${note.words()} &bull; ${modified}`;
     return m('.tile.tile-centered', {
       onclick: () => { m.route.set(`/view/${note.id}`); }
     },

@@ -9,8 +9,8 @@ export class Note {
     const split = note.data.split(/\n\n/);
     this.title = split.shift();
     this.body = split.join('\n\n');
-    this.created = timeago().format(new Date(note.created));
-    this.modified = (note.modified) ? timeago().format(new Date(note.modified)) : null;
+    this.created = timeago().format(note.created);
+    this.modified = (note.modified) ? timeago().format(note.modified) : null;
   }
 
   words() {
