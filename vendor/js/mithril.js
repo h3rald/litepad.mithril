@@ -1,4 +1,5 @@
-/* eslint-disable */
+// Modified by Fabio Cevasco to support ES6 module loading.
+//#FC
 //;(function() {
 //"use strict"
 function Vnode(tag, key, attrs0, children, text, dom) {
@@ -1252,4 +1253,4 @@ m.vnode = Vnode;
 if (typeof module !== "undefined") { module["exports"] = m; }
 else { window.m = m; }
 export { m };
-//}());
+//}()); //#FC

@@ -11,8 +11,11 @@ var _self = (typeof window !== 'undefined')
  * Prism: Lightweight, robust, elegant syntax highlighting
  * MIT license http://www.opensource.org/licenses/mit-license.php/
  * @author Lea Verou http://lea.verou.me
+ * 
+ * Modified by Fabio Cevasco to support ES6 module loading.
  */
 
+export { Prism };//#FC 
 var Prism = (function(){
 
 // Private helper vars

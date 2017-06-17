@@ -73,7 +73,7 @@ footer {
   font-size: 80%;
 }
 
-.content {
+.content, .CodeMirror {
   height: calc(100vh - 150px);
   overflow-y: scroll;
 }
@@ -89,3 +89,4 @@ footer {
 .btn.action i {
   font-size: 1.2em;
 }
+

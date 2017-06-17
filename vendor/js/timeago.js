@@ -1,18 +1,19 @@
-/* eslint-disable */
 /**
  * Copyright (c) 2016 hustcc
  * License: MIT
  * Version: v3.0.0
  * https://github.com/hustcc/timeago.js
+ * 
+ * Modified by Fabio Cevasco to support ES6 module loading.
 **/
 /* jshint expr: true */
-////
+//#FC
 let timeago;
-////
+//#FC
 !(function (root, factory) {
-  ////
+  //#FC
   timeago = factory(root);
-  ////
+  //#FC
   if (typeof module === 'object' && module.exports) {
     module.exports = factory(root); // nodejs support
     module.exports['default'] = module.exports; // es6 support
@@ -271,6 +272,6 @@ d = Math.abs(diff);
 
   return timeagoFactory;
 }));
-/////
+//#FC
 export {timeago};
-/////
+//#FC

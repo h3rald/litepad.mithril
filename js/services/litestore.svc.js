@@ -30,7 +30,7 @@ export class LiteStoreService {
     return m.request({
       method: 'POST',
       url: `${this.config.settings.api}/docs/${this.config.settings.prefix}`,
-      data: note
+      data: note.text()
     });
   }
   
@@ -38,7 +38,7 @@ export class LiteStoreService {
     return m.request({
       method: 'PUT',
       url: `${this.config.settings.api}/docs/${this.config.settings.prefix}${note.id}`,
-      data: note
+      data: note.text()
     });
   }
 

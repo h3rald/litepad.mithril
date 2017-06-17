@@ -2,9 +2,12 @@
  * marked - a markdown parser
  * Copyright (c) 2011-2014, Christopher Jeffrey. (MIT Licensed)
  * https://github.com/chjj/marked
+ *
+ * Modified by Fabio Cevasco to support ES6 module loading.
  */
 
-//;(function() {
+
+//;(function() { //#FC
 
 /**
  * Block-Level Grammar
@@ -1274,7 +1277,7 @@ marked.inlineLexer = InlineLexer.output;
 marked.parse = marked;
 
 export { marked }
-/*
+/* //#FC
 if (typeof module !== 'undefined' && typeof exports === 'object') {
   module.exports = marked;
 } else if (typeof define === 'function' && define.amd) {

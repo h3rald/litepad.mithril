@@ -14,4 +14,8 @@ export class Note {
     return `${this.body.split(/\s/m).length} words`;
   }
 
+  text() {
+    return `${this.title}\n\n${this.body}`;
+  }
+
 }
