@@ -4,25 +4,22 @@ import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
 import { ModalComponent } from './modal.cmp.js';
 import { NavBarComponent } from './navbar.cmp.js';
-import { Note } from '../models/note.js';
 import { m } from '../../vendor/js/mithril.js';
 
-export class EditNoteComponent {
+export class NewNoteComponent {
 
   constructor(){
     this.store = new LiteStoreService();
-    this.id = m.route.param('id');
-    this.note = {body: ""};
+    this.note = {title: '', body: ''};
     this.editor = null;
     this.error = false;
-    this.load();
     this.actions = [
       {
         label: 'Cancel',
         main: false,
         icon: 'cancel',
         callback: () => {
-          m.route.set(`/view/${this.id}`);
+          m.route.set(`/home`);
         }
       },
       {
@@ -35,8 +32,8 @@ export class EditNoteComponent {
             this.error = true;
             m.redraw();
           } else {
-            this.store.save(this.note).then(() => {
-              m.route.set(`/view/${this.id}`);
+            this.store.create(this.note).then((data) => {
+              m.route.set(`/view/${data.id}`);
             }).catch((e) => {
               console.warn(e); // eslint-disable-line no-console
             });
@@ -44,12 +41,6 @@ export class EditNoteComponent {
         }
       }
     ];
-  }
-
-  load(){
-    this.store.get(this.id).then((note) => {
-      this.note = new Note(note);
-    });
   }
 
   setTitle(value) {
@@ -65,12 +56,12 @@ export class EditNoteComponent {
         theme: 'mdn-like',
         lineWrapping: true,
         lineNumbers: true,
-        autofocus: true
+        autofocus: false
       });
     }
   }
 
-   modal() {
+  modal() {
     if (this.error) {
       return m(ModalComponent, {
         title: 'Unable to save note',
@@ -103,7 +94,8 @@ export class EditNoteComponent {
       m('main.column.col-12', [
         m(ActionBarComponent, {title: title, actions: this.actions}),
         m('textarea#note-body.content', {
-          onupdate: () => { this.highlight(); },
+          placeholder: 'Enter text here...',
+          oncreate: () => { this.highlight(); },
         }, this.note.body)
       ]),
       this.modal(),

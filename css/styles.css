@@ -73,7 +73,7 @@ footer {
   font-size: 80%;
 }
 
-.content, .CodeMirror {
+.main-content, .CodeMirror {
   height: calc(100vh - 150px);
   overflow-y: scroll;
 }
@@ -90,3 +90,6 @@ footer {
   font-size: 1.2em;
 }
 
+#note-title {
+  width: 100%;
+}

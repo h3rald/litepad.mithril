@@ -1,4 +1,5 @@
 import { ConfigService } from '../services/config.svc.js';
+import { timeago } from '../../vendor/js/timeago.js';
 
 export class Note {
 
@@ -8,6 +9,8 @@ export class Note {
     const split = note.data.split(/\n\n/);
     this.title = split.shift();
     this.body = split.join('\n\n');
+    this.created = timeago().format(new Date(note.created));
+    this.modified = (note.modified) ? timeago().format(new Date(note.modified)) : null;
   }
 
   words() {

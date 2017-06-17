@@ -30,7 +30,7 @@ export class LiteStoreService {
     return m.request({
       method: 'POST',
       url: `${this.config.settings.api}/docs/${this.config.settings.prefix}`,
-      data: note.text()
+      data: `${note.title}\n\n${note.body}`
     });
   }
   

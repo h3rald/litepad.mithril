@@ -1,3 +1,4 @@
+import { ActionBarComponent } from './actionbar.cmp.js';
 import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
 import { NavBarComponent } from './navbar.cmp.js';
@@ -10,6 +11,16 @@ export class HomeComponent {
     this.store = new LiteStoreService();
     this.notes = [];
     this.load();
+    this.actions = [
+      {
+        label: 'New',
+        main: true,
+        icon: 'plus',
+        callback: () => {
+          m.route.set(`/new`);
+        }
+      }
+    ];
   }
 
   load(){
@@ -19,6 +30,8 @@ export class HomeComponent {
   }
 
   tile(note) {
+    const modified = (note.modified) ? ` &bull; modified ${note.modified}` : '';
+    const subtitle = `${note.words()} &mdash; created ${note.created}${modified}`;
     return m('.tile.tile-centered', {
       onclick: () => { m.route.set(`/view/${note.id}`); }
     },
@@ -26,7 +39,7 @@ export class HomeComponent {
       m('.tile-icon', m('i.typcn.typcn-document.centered')),
       m('.tile-content', [
         m('.tile-title', note.title),
-        m('.tile-subtitle', note.words())
+        m('.tile-subtitle', m.trust(subtitle))
       ]),
     ]);
   }
@@ -35,8 +48,8 @@ export class HomeComponent {
     return m('article.notes.columns', [
       m(NavBarComponent),
       m('main.column.col-12', [
-        m('h1', 'Notes'),
-        m('.content', this.notes.map(this.tile))
+        m(ActionBarComponent, {title: 'Notes', actions: this.actions}),
+        m('.main-content', this.notes.map(this.tile))
       ]),
       m(FooterComponent)
     ]);
