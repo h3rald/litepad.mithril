@@ -22,7 +22,7 @@ To start using LitePad, simply:
       3. Navigate to <http://localhost:9500/docs/app/index.html>.
     * Run from a source directory:
       1. Clone the [LitePad repository][repo] or download and unpack a [source release][release].
-      2. Run `litestore -d:<path-to-LitePad-source-files>`.
+      2. Run `litestore -d:<path-to-LitePad-source-folder>`.
       3. Navigate to <http://localhost:9500/dir/index.html>.
 
 ## Browser Support
@@ -30,6 +30,7 @@ To start using LitePad, simply:
 LitePad makes extensive use of [ES2015][es2015] (ES6) features such as:
 
 * ES modules.
+* Classes.
 * Constant/local variable definition via `const` and `let`.
 * Arrow functions.
 * Template literals.

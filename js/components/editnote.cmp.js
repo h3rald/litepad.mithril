@@ -2,7 +2,6 @@ import { ActionBarComponent } from './actionbar.cmp.js';
 import { CodeMirror } from '../../vendor/js/markdown.js';
 import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
-import { ModalComponent } from './modal.cmp.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
 import { NotificationService } from '../services/notification.svc.js';

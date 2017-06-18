@@ -55,5 +55,4 @@ export class LiteStoreService {
       url: `${this.config.settings.api}/docs/litepad/notes/?search=${query}`
     });
   }
- 
 }

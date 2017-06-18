@@ -4,23 +4,23 @@
   cursor: pointer;
 }
 
-.card {
-  margin: 2px 0;
-}
-
 .tile:hover {
   background: #c9cfee;
 }
 
 .tile-icon {
-    width: 35px;
-    height: 35px;
-    padding-top: 7px;
-    text-align: center;
-    margin: 0;
-    margin-left: 3px;
-    background: #5764c6;
-    color: #fff;
+  width: 35px;
+  height: 35px;
+  padding-top: 7px;
+  text-align: center;
+  margin: 0;
+  margin-left: 3px;
+  background: #5764c6;
+  color: #fff;
+}
+
+.card {
+  margin: 2px 0;
 }
 
 .card-actions {
