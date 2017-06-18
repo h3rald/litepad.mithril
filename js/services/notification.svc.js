@@ -39,11 +39,33 @@ export class NotificationService {
     instance.storage.setItem('notification', JSON.stringify(data));
   }
 
-  error(message) {
+  error(error) {
+    let message = null;
+    if (error instanceof Error) {
+      try {
+        message = JSON.parse(error.message).error;
+        if (message === 'No documents found.') {
+          return message;
+        } 
+      } catch (e) {
+        message = error.message; // eslint-disable-line prefer-destructuring
+      }
+    }
+    else {
+      try {
+        message = JSON.parse(error.message).error;
+      } catch (e) {
+        message = error;
+      }
+    }
+    if (!message) {
+      message = "An error occurred.";
+    }
     setTimeout(() => {
       instance.set({type: 'error', message: message, duration: 2000});
       m.redraw();
     }, 200);
+    return message;
   }
 
   success(message) {

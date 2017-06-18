@@ -9,17 +9,14 @@
 }
 
 .tile-icon {
-    font-size: 25px;
     width: 35px;
+    height: 35px;
+    padding-top: 7px;
     text-align: center;
     margin: 0;
     margin-left: 3px;
     background: #5764c6;
     color: #fff;
-}
-
-.tile-action i {
-  font-size: 25px;
 }
 
 article {
@@ -95,10 +92,6 @@ footer {
   max-width: 80px;
 }
 
-.btn.action i {
-  font-size: 1.2em;
-}
-
 #note-title {
   width: 100%;
 }
@@ -138,4 +131,9 @@ footer {
 @keyframes fadeout {
   from {bottom: 35px; opacity: 1;}
   to {bottom: 0; opacity: 0;}
+}
+
+.loading-message {
+  margin: auto;
+  text-align: center;
 }

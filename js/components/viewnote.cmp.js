@@ -32,7 +32,7 @@ export class ViewNoteComponent {
       {
         label: 'Back',
         main: false,
-        icon: 'arrow-left',
+        icon: 'back',
         callback: () => {
           m.route.set(`/home/`);
         }
@@ -40,7 +40,7 @@ export class ViewNoteComponent {
       {
         label: 'Delete',
         main: false,
-        icon: 'trash',
+        icon: 'delete',
         callback: () => {
           this.delete = true;
         }
@@ -70,7 +70,7 @@ export class ViewNoteComponent {
         buttons: [
           {
             title: 'Cancel',
-            icon: 'cancel',
+            icon: 'stop',
             type: 'link',
             callback: () => {
               this.delete = false;
@@ -79,7 +79,7 @@ export class ViewNoteComponent {
           },
           {
             title: 'Delete',
-            icon: 'trash',
+            icon: 'delete',
             type: 'primary',
             callback: () => {
               this.store.delete(this.note).then(() => {
@@ -87,7 +87,7 @@ export class ViewNoteComponent {
                 m.route.set('/home');
               }).catch((e) => {
                 this.delete = false;
-                this.notification.error(JSON.parse(e.message).error);
+                this.notification.error(e);
               });
             }
           }

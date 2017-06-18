@@ -3,13 +3,18 @@ import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
+import { NotificationService } from '../services/notification.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
 export class HomeComponent {
 
   constructor(){
     this.store = new LiteStoreService();
+    this.notification = new NotificationService();
     this.notes = [];
+    this.loading = true;
+    this.error = false;
+    this.empty = false;
     this.load();
     this.actions = [
       {
@@ -25,7 +30,18 @@ export class HomeComponent {
 
   load(){
     this.store.getAll().then((notes) => {
+      this.error = false;
+      this.loading = false;
+      this.empty = false;
       this.notes = notes.results.map((note) => new Note(note));
+    }).catch((e) => {
+      this.loading = false;
+      const message = this.notification.error(e);
+      if (message === 'No documents found.') {
+        this.empty = true;
+      } else {
+        this.error = true;
+      }
     });
   }
 
@@ -36,7 +52,7 @@ export class HomeComponent {
       onclick: () => { m.route.set(`/view/${note.id}`); }
     },
     [
-      m('.tile-icon', m('i.typcn.typcn-document.centered')),
+      m('.tile-icon', m('i.icon.icon-arrow-right.centered')),
       m('.tile-content', [
         m('.tile-title', note.title),
         m('.tile-subtitle', m.trust(subtitle))
@@ -44,12 +60,34 @@ export class HomeComponent {
     ]);
   }
 
+  content() {
+    if (this.loading) {
+      return [m('.loading'), m('.loading-message', 'Loading...')];
+    }
+    if (!this.empty) {
+      return this.notes.map(this.tile);
+    }
+    if (this.error) {
+      return m('.toast.toast-error', 'An error occurred when loading notes.');
+    }
+    return m('.empty', [
+      m('.empty-icon', m('i.icon.icon-edit')),
+      m('h4.empty-title', "There are no notes."),
+      m('p.empty-subtitle', 'Click the button to create a new note.'),
+      m('.empty-action', m('button.btn.btn-primary', {
+        onclick: () => {
+          m.route.set(`/new`);
+        }
+      }, [m('i.icon.icon-plus'), 'New Note']))
+    ]);
+  }
+
   view(){
     return m('article.notes.columns', [
       m(NavBarComponent),
       m('main.column.col-12', [
-        m(ActionBarComponent, {title: 'Notes', actions: this.actions}),
-        m('.main-content', this.notes.map(this.tile))
+        m(ActionBarComponent, {title: 'Notes', actions: (this.empty) ? [] : this.actions}),
+        m('.main-content', this.content())
       ]),
       m(FooterComponent)
     ]);

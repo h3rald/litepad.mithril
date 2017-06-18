@@ -57,7 +57,7 @@ export class NavBarComponent {
         this.clearSearch(); 
         this.toggleSearch();
       }
-    }, [m('i.icon.icon-back')]);
+    }, [m('i.icon.icon-cross')]);
     const textbox = m('input.search.form-input', {
       placeholder: 'Search...',
       autofocus: true,

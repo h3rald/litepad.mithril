@@ -21,7 +21,7 @@ export class EditNoteComponent {
       {
         label: 'Cancel',
         main: false,
-        icon: 'cancel',
+        icon: 'stop',
         callback: () => {
           m.route.set(`/view/${this.id}`);
         }
@@ -29,7 +29,7 @@ export class EditNoteComponent {
       {
         label: 'Save',
         main: true,
-        icon: 'tick',
+        icon: 'check',
         callback: () => {
           this.note.body = this.editor.getValue();
           if (this.note.body === '' || this.note.title === '') {
@@ -38,9 +38,7 @@ export class EditNoteComponent {
             this.store.save(this.note).then(() => {
               this.notification.success('Note modified successfully.');
               m.route.set(`/view/${this.id}`);
-            }).catch((e) => {
-              this.notification.error(JSON.parse(e.message).error);
-            });
+            }).catch(this.notification.error);
           }
         }
       }

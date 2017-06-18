@@ -24,7 +24,7 @@ export class ModalComponent {
           this.close;
          } 
       }, [
-        m(`i.typcn.typcn-${btn.icon}`),
+        m(`i.icon.icon-${btn.icon}`),
         btn.title
       ]);
     });

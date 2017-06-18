@@ -3,6 +3,7 @@ import { CodeMirror } from '../../vendor/js/markdown.js';
 import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
 import { NavBarComponent } from './navbar.cmp.js';
+import { Note } from '../models/note.js';
 import { NotificationService } from '../services/notification.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
@@ -17,7 +18,7 @@ export class NewNoteComponent {
       {
         label: 'Cancel',
         main: false,
-        icon: 'cancel',
+        icon: 'stop',
         callback: () => {
           m.route.set(`/home`);
         }
@@ -25,18 +26,20 @@ export class NewNoteComponent {
       {
         label: 'Save',
         main: true,
-        icon: 'tick',
+        icon: 'check',
         callback: () => {
+          let note = null;
           this.note.body = this.editor.getValue();
           if (this.note.body === '' || this.note.title === '') {
             this.notification.error('Title and body text cannot be empty.');
           } else {
             this.store.create(this.note).then((data) => {
-              this.notification.success('Note created successfully.');
-              m.route.set(`/view/${data.id}`);
-            }).catch((e) => {
-              this.notification.error(JSON.parse(e.message).error);
-            });
+              note = new Note(data);
+              return this.store.save(note);
+            }).then(() => {
+              this.notification.success(`Note '${note.title}' created successfully.`);
+              m.route.set(`/view/${note.id}`);
+            }).catch(this.notification.error);
           }
         }
       }

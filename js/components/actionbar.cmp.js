@@ -16,8 +16,8 @@ export class ActionBarComponent {
     return m(`button.btn.${btnClass}.action`, {
       onclick: data.callback
     }, [
-      m(`i.typcn.typcn-${data.icon}`),
-      data.label
+      m(`i.icon.icon-${data.icon}`),
+      ` ${data.label}`
     ]);
   }
 
