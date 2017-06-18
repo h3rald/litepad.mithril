@@ -103,10 +103,15 @@ export class ViewNoteComponent {
   }
 
   view(){
+    if (!this.note.created) {
+      return '';
+    }
+    const modified = this.note.modified || this.note.created;
+    const subtitle = `${this.note.words()} &bull; ${modified}`;
     return m('article.columns', [
       m(NavBarComponent),
       m('main.column.col-12', [
-        m(ActionBarComponent, {title: this.note.title, actions: this.actions}),
+        m(ActionBarComponent, {title: this.note.title, subtitle: m.trust(subtitle), actions: this.actions}),
         m('.main-content.note', m.trust(marked(this.note.body)))
       ]),
       this.modal(),

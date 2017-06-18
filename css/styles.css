@@ -74,12 +74,12 @@ header {
 footer {
   text-align: center;
   margin: auto;
-  height: 30px;
+  height: 20px;
   font-size: 80%;
 }
 
 .main-content, .CodeMirror {
-  height: calc(100vh - 170px);
+  height: calc(100vh - 160px);
   overflow-y: scroll;
 }
 
@@ -90,7 +90,7 @@ footer {
 
 @media only screen and (max-width : 480px) {
   .main-content, .CodeMirror {
-    height: calc(100vh - 200px);
+    height: calc(100vh - 190px);
   }
   .actionbar {
     height: 100px;
@@ -117,7 +117,7 @@ footer {
   z-index: 1;
   left: 50%;
   width: auto;
-  bottom: 35px;
+  top: 35px;
 }
 
 #notification.show {
@@ -127,23 +127,23 @@ footer {
 }
 
 @-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 35px; opacity: 1;}
+  from {top: 0; opacity: 0;} 
+  to {top: 35px; opacity: 1;}
 }
 
 @keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 35px; opacity: 1;}
+  from {top: 0; opacity: 0;}
+  to {top: 35px; opacity: 1;}
 }
 
 @-webkit-keyframes fadeout {
-  from {bottom: 35px; opacity: 1;} 
-  to {bottom: 0; opacity: 0;}
+  from {top: 35px; opacity: 1;} 
+  to {top: 0; opacity: 0;}
 }
 
 @keyframes fadeout {
-  from {bottom: 35px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
+  from {top: 35px; opacity: 1;}
+  to {top: 0; opacity: 0;}
 }
 
 .loading-message {
@@ -153,6 +153,12 @@ footer {
 
 .note {
   margin: 0 2rem;
+}
+
+#note-title {
+  color: #50596c;
+  border: none;
+  font-weight: 300;
 }
 
 .note p,

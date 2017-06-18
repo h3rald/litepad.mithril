@@ -1,9 +1,11 @@
+import { NotificationService } from '../services/notification.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
 let searching = false;
 export class NavBarComponent {
 
   constructor(){
+    this.notification = new NotificationService();
     this.searching = false;
     this.query = '';
     window.onkeypress = (e) => { 
@@ -100,6 +102,9 @@ export class NavBarComponent {
   
   view(){
     const contents = (searching) ? this.buildSearchBar() : this.buildStatusBar();
-    return m('header.navbar', contents);
+    return m('header.navbar', [
+      this.notification.display(),
+      contents
+    ]);
   }
 }
