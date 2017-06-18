@@ -18,6 +18,11 @@ export class ViewNoteComponent {
     this.message = {};
     this.delete = false;
     this.load();
+    if (m.route.param('q')) {
+      this.back = `/search/${m.route.param('q')}`;
+    } else {
+      this.back = '/home';
+    }
     marked.setOptions({
       renderer: new marked.Renderer(),
       gfm: true,
@@ -34,7 +39,7 @@ export class ViewNoteComponent {
         main: false,
         icon: 'back',
         callback: () => {
-          m.route.set(`/home/`);
+          m.route.set(this.back);
         }
       },
       {

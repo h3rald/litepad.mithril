@@ -1,7 +1,11 @@
 .tile {
   background: #eff1fa;
-  margin: 2px;
+  margin: 2px 0;
   cursor: pointer;
+}
+
+.card {
+  margin: 2px 0;
 }
 
 .tile:hover {
@@ -17,6 +21,10 @@
     margin-left: 3px;
     background: #5764c6;
     color: #fff;
+}
+
+.card-actions {
+  float: right;
 }
 
 article {
@@ -71,16 +79,21 @@ footer {
 }
 
 .main-content, .CodeMirror {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 170px);
   overflow-y: scroll;
+}
+
+.subtitle {
+  color: #bbc1cd;
+  margin-left: -10px;
 }
 
 @media only screen and (max-width : 480px) {
   .main-content, .CodeMirror {
-    height: calc(100vh - 190px);
+    height: calc(100vh - 200px);
   }
   .actionbar {
-    height: 90px;
+    height: 100px;
   }
 }
 

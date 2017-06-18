@@ -10,7 +10,15 @@ export class Note {
     this.title = split.shift();
     this.body = split.join('\n\n');
     this.created = timeago().format(note.created);
+    this.highlight = this.formatHighlight(note.highlight);
     this.modified = (note.modified) ? timeago().format(note.modified) : null;
+  }
+
+  formatHighlight(highlight) {
+    if (highlight) {
+      return highlight.replace(/^"|\*+|_+|"$/g, '').replace(/\\n/g, ' ');
+    }
+    return null;
   }
 
   words() {

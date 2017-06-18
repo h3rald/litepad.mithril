@@ -14,15 +14,11 @@ export class NavBarComponent {
     }
   }
 
-  clearSearch(){
-    this.query = '';
-  }
-
   search() {
     searching = false;
-    const { query } = this;
-    this.clearSearch();
-    m.route.set('/search/:query', {query: query});
+    const q = this.query;
+    this.query = '';
+    m.route.set('/search/:query', {query: q});
   }
   
   toggleSearch(){
@@ -54,7 +50,7 @@ export class NavBarComponent {
   buildSearchBar(){
     const backLink = m('span.btn.btn-link.input-group-btn', {
       onclick: () => { 
-        this.clearSearch(); 
+        this.query = ''; 
         this.toggleSearch();
       }
     }, [m('i.icon.icon-cross')]);
@@ -66,7 +62,7 @@ export class NavBarComponent {
       onkeypress: (e) => { this.handleKeyPress(e); }
     });
     const searchLink = m('span.btn.btn-primary.input-group-btn', {
-      onclick: this.search
+      onclick: () => { this.search(); }
     }, [m('i.icon.icon-search')]);
     return m('.input-group.searchbar', [
       backLink,

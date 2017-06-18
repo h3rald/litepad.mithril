@@ -17,32 +17,44 @@ export class EditNoteComponent {
     this.note = {body: ""};
     this.editor = null;
     this.load();
-    this.actions = [
-      {
-        label: 'Cancel',
+    if (m.route.param('q')) {
+      this.back = `/search/${m.route.param('q')}`;
+    }
+    this.actions = [];
+    if (this.back) {
+      this.actions.push({
+        label: 'Back',
         main: false,
-        icon: 'stop',
+        icon: 'back',
         callback: () => {
-          m.route.set(`/view/${this.id}`);
+          m.route.set(this.back);
         }
-      },
-      {
-        label: 'Save',
-        main: true,
-        icon: 'check',
-        callback: () => {
-          this.note.body = this.editor.getValue();
-          if (this.note.body === '' || this.note.title === '') {
-            this.notification.error('Title and body text cannot be empty.');
-          } else {
-            this.store.save(this.note).then(() => {
-              this.notification.success('Note modified successfully.');
-              m.route.set(`/view/${this.id}`);
-            }).catch(this.notification.error);
-          }
+      });
+    }
+    this.actions.push({
+      label: 'Cancel',
+      main: false,
+      icon: 'stop',
+      callback: () => {
+        m.route.set(`/view/${this.id}`);
+      }
+    });
+    this.actions.push({
+      label: 'Save',
+      main: true,
+      icon: 'check',
+      callback: () => {
+        this.note.body = this.editor.getValue();
+        if (this.note.body === '' || this.note.title === '') {
+          this.notification.error('Title and body text cannot be empty.');
+        } else {
+          this.store.save(this.note).then(() => {
+            this.notification.success('Note modified successfully.');
+            m.route.set(`/view/${this.id}`);
+          }).catch(this.notification.error);
         }
       }
-    ];
+    });
   }
 
   load(){

@@ -9,6 +9,7 @@ export class ActionBarComponent {
   onbeforeupdate(vnode) {
     this.actions = vnode.attrs.actions || [];
     this.title = vnode.attrs.title;
+    this.subtitle = vnode.attrs.subtitle;
   }
 
   action(data) {
@@ -21,14 +22,21 @@ export class ActionBarComponent {
     ]);
   }
 
+  subtitleBlock() {
+    if (this.subtitle) {
+      return m('.subtitle', this.subtitle);
+    }
+    return '';
+  }
+
   view() {
-    return m('.actionbar.container', 
+    return m('.actionbar.container', [
       m('.columns', [
         m('h1.col-xs-12.col-8', this.title),
         m('.btn-group.btn-group-block.col-xs-12.col-4.actions', this.actions.map(this.action))
-      ])
-    );
-    
+      ]),
+      this.subtitleBlock()
+    ]);
   }
 
 }

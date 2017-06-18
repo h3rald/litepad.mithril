@@ -6,30 +6,31 @@ import { Note } from '../models/note.js';
 import { NotificationService } from '../services/notification.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
-export class HomeComponent {
+export class SearchComponent {
 
   constructor(){
     this.store = new LiteStoreService();
     this.notification = new NotificationService();
     this.notes = [];
+    this.query = m.route.param('query');
     this.loading = true;
     this.error = false;
     this.empty = false;
     this.load();
     this.actions = [
       {
-        label: 'New',
+        label: 'Home',
         main: true,
-        icon: 'plus',
+        icon: 'back',
         callback: () => {
-          m.route.set(`/new`);
+          m.route.set(`/home`);
         }
       }
     ];
   }
 
   load(){
-    this.store.getAll().then((notes) => {
+    this.store.search(this.query).then((notes) => {
       this.error = false;
       this.loading = false;
       this.empty = false;
@@ -45,18 +46,29 @@ export class HomeComponent {
     });
   }
 
-  tile(note) {
+  card(note) {
     const modified = note.modified || note.created;
     const subtitle = `${note.words()} &bull; ${modified}`;
-    return m('.tile.tile-centered', {
-      onclick: () => { m.route.set(`/view/${note.id}`); }
-    },
-    [
-      m('.tile-icon', m('i.icon.icon-arrow-right.centered')),
-      m('.tile-content', [
-        m('.tile-title', note.title),
-        m('.tile-subtitle', m.trust(subtitle))
+    return m('.card', [
+      m('.card-header', [
+        m('.card-actions', [
+          m('button.btn.btn-link', {
+            onclick: () => { m.route.set(`/edit/${note.id}/q/${this.query}`); }
+          }, [
+            m('i.icon.icon-edit'),
+            ' Edit'
+          ]),
+          m('button.btn.btn-link', {
+            onclick: () => { m.route.set(`/view/${note.id}/q/${this.query}`); }
+          }, [
+            m('i.icon.icon-share'),
+            ' View'
+          ]),
+        ]),
+        m('.card-title', note.title),
+        m('.card-subtitle', m.trust(subtitle))
       ]),
+      m('.card-body', m.trust(note.highlight))
     ]);
   }
 
@@ -65,30 +77,32 @@ export class HomeComponent {
       return [m('.loading'), m('.loading-message', 'Loading...')];
     }
     if (!this.empty) {
-      return this.notes.map(this.tile);
+      return this.notes.map((n) => { 
+        return this.card(n); 
+      });
     }
     if (this.error) {
       return m('.toast.toast-error', 'An error occurred when loading notes.');
     }
     return m('.empty', [
       m('.empty-icon', m('i.icon.icon-cross')),
-      m('h4.empty-title', "There are no notes."),
-      m('p.empty-subtitle', 'Click the button to create a new note.'),
+      m('h4.empty-title', "No notes found."),
+      m('p.empty-subtitle', 'There are no notes matching your search.'),
       m('.empty-action', m('button.btn.btn-primary', {
         onclick: () => {
-          m.route.set(`/new`);
+          m.route.set(`/home`);
         }
-      }, [m('i.icon.icon-plus'), ' New Note']))
+      }, [m('i.icon.icon-back'), ' Back to Home']))
     ]);
   }
 
   view(){
     const actions = (this.empty) ? [] : this.actions;
-    const subtitle = (this.notes.length > 0) ? `Total: ${this.notes.length}` : null;
+    const subtitle = `Total: ${this.notes.length}`;
     return m('article.notes.columns', [
       m(NavBarComponent),
       m('main.column.col-12', [
-        m(ActionBarComponent, {title: 'Notes', subtitle: subtitle, actions: actions}),
+        m(ActionBarComponent, {title: ['Search: ', m('em', this.query)], subtitle: subtitle, actions: actions}),
         m('.main-content', this.content())
       ]),
       m(FooterComponent)
