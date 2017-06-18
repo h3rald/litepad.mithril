@@ -6,11 +6,38 @@ export class NavBarComponent {
   constructor(){
     this.searching = false;
     this.query = '';
+    window.onkeypress = (e) => { 
+      this.handleKeyPress(e); 
+    };
+  }
+
+  handleKeyPress(e) {
+    if (e.code === 'KeyF' && (e.altKey || e.ctrlKey)) {
+      e.preventDefault();
+      this.toggleSearch();
+      m.redraw();
+    }
+    else if (e.code === 'KeyH' && (e.altKey || e.ctrlKey)) {
+      e.preventDefault();
+      searching = false;
+      m.redraw();
+      m.route.set('/home', null, {state: {key: Date.now()}});
+    }
+    if (e.code === 'KeyN' && (e.altKey || e.ctrlKey)) {
+      e.preventDefault();
+      m.route.set('/new', null, {state: {key: Date.now()}});
+    }
   }
   
-  handleKeyPress(event){
-    if (event.charCode === 13){
+  handleSearchKeyPress(e){
+    if (e.charCode === 13){
+      e.preventDefault();
       this.search();
+    }
+    else if (e.code === 'KeyK' && (e.altKey || e.crlKey)) {
+      e.preventDefault();
+      this.query = '';
+      m.redraw();
     }
   }
 
@@ -59,7 +86,7 @@ export class NavBarComponent {
       autofocus: true,
       value: this.query,
       oninput: m.withAttr('value', this.setQuery, this),
-      onkeypress: (e) => { this.handleKeyPress(e); }
+      onkeypress: (e) => { this.handleSearchKeyPress(e); }
     });
     const searchLink = m('span.btn.btn-primary.input-group-btn', {
       onclick: () => { this.search(); }

@@ -25,7 +25,7 @@ export class ModalComponent {
          } 
       }, [
         m(`i.icon.icon-${btn.icon}`),
-        btn.title
+        ` ${btn.title}`
       ]);
     });
   }
