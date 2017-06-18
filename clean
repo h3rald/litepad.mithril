@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+if [ -f data.db ]; then
+  rm data.db
+fi
+if [ -f data.db-journal ]; then
+  rm data.db-journal
+fi
+if [ -d litepad ]; then
+  rm -rf litepad/*
+  rmdir litepad
+fi
+echo "OK"

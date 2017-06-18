@@ -47,7 +47,7 @@ export class NavBarComponent {
     searching = false;
     const q = this.query;
     this.query = '';
-    m.route.set('/search/:query', {query: q});
+    m.route.set('/search/:query', {query: q}, {state: {key: Date.now()}});
   }
   
   toggleSearch(){
