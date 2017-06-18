@@ -107,7 +107,7 @@ export class ViewNoteComponent {
       m(NavBarComponent),
       m('main.column.col-12', [
         m(ActionBarComponent, {title: this.note.title, actions: this.actions}),
-        m('.main-content', m.trust(marked(this.note.body)))
+        m('.main-content.note', m.trust(marked(this.note.body)))
       ]),
       this.modal(),
       m(FooterComponent)

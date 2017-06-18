@@ -150,3 +150,40 @@ footer {
   margin: auto;
   text-align: center;
 }
+
+.note {
+  margin: 0 2rem;
+}
+
+.note p,
+.note ul,
+.note ol,
+.note pre,
+.note table,
+.note img,
+.note div,
+.note section,
+.note blockquote {
+  margin: 0 4rem;
+}
+
+.note pre > code {
+  width: 100%;
+  white-space: pre-wrap;
+}
+
+.note code {
+  color: #727e96;
+  background: #f8f9fa;
+}
+
+.note ul,
+.note ol {
+  margin: 0.5rem 0 0.5rem 7rem;
+}
+
+.note ol li,
+.note ul li {
+  margin-top: 0.2rem;
+  list-style-position: outside;
+}
