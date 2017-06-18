@@ -18,5 +18,5 @@ function init() {
   });
 }
 
-new ConfigService('1.0.0'); // eslint-disable-line no-new
+new ConfigService('1.0.1'); // eslint-disable-line no-new
 init();
