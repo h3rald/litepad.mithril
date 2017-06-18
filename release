@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+if [ -f data.db ]; then
+  rm data.db
+fi
+if [ -f data.db-journal ]; then
+  rm data.db-journal
+fi
+if [ -d litepad ]; then
+  rm -rf litepad/*
+  rmdir litepad
+fi
+mkdir litepad
+cp -r css litepad/
+cp -r js litepad/
+cp -r vendor litepad/
+cp index.html litepad/
+litestore import -d:litepad
+echo "OK"

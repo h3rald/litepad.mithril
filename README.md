@@ -19,7 +19,7 @@ To start using LitePad, simply:
     * Run from a pre-loaded LiteStore datastore:
       1. [Download][release] a LiteStore datastore (`data.db`) pre-loaded with the LitePad web app.
       2. Run `litestore` in the directory containing the `data.db` file.
-      3. Navigate to <http://localhost:9500/docs/app/index.html>.
+      3. Navigate to <http://localhost:9500/docs/litepad/index.html>.
     * Run from a source directory:
       1. Clone the [LitePad repository][repo] or download and unpack a [source release][release].
       2. Run `litestore -d:<path-to-LitePad-source-folder>`.
