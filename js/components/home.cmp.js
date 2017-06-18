@@ -85,7 +85,7 @@ export class HomeComponent {
   view(){
     const actions = (this.empty) ? [] : this.actions;
     const subtitle = (this.notes.length > 0) ? `Total: ${this.notes.length}` : null;
-    return m('article.notes.columns', [
+    return m('article.columns', [
       m(NavBarComponent),
       m('main.column.col-12', [
         m(ActionBarComponent, {title: 'Notes', subtitle: subtitle, actions: actions}),

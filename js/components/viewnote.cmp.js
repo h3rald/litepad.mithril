@@ -103,7 +103,7 @@ export class ViewNoteComponent {
   }
 
   view(){
-    return m('article.notes.columns', [
+    return m('article.columns', [
       m(NavBarComponent),
       m('main.column.col-12', [
         m(ActionBarComponent, {title: this.note.title, actions: this.actions}),

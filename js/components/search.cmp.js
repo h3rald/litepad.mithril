@@ -99,7 +99,7 @@ export class SearchComponent {
   view(){
     const actions = (this.empty) ? [] : this.actions;
     const subtitle = `Total: ${this.notes.length}`;
-    return m('article.notes.columns', [
+    return m('article.columns', [
       m(NavBarComponent),
       m('main.column.col-12', [
         m(ActionBarComponent, {title: ['Search: ', m('em', this.query)], subtitle: subtitle, actions: actions}),

@@ -71,7 +71,7 @@ export class NewNoteComponent {
       value: this.note.title,
       autofocus: true
     });
-    return m('article.notes.columns', [
+    return m('article.columns', [
       m(NavBarComponent),
       m('main.column.col-12', [
         m(ActionBarComponent, {title: title, actions: this.actions}),
