@@ -37,7 +37,7 @@ LitePad makes extensive use of [ES2015][es2015] (ES6) features such as:
 
 Because of this, LitePad is currently only supported by the following browsers:
 
-* Google Chrome 60 or higher.
+* Google Chrome 60 or higher (with the *Experimental Web Platform features* flag enabled).
 * Apple Safari 10.1 or higher.
 
 ## Credits
@@ -50,6 +50,7 @@ LitePad exists thanks to:
 * The [marked][marked] Javascript markdown parser and compiler.
 * The [CodeMirror][codemirror] Javascript code editor.
 * The [timeago.js][timeago] Javascript date format library.
+* The [keymage.js][keymage] Javascript key binding library.
 
 ## License
 
@@ -65,3 +66,4 @@ LitePad is licensed under the [MIT License][license].
 [timeago]:http://timeago.org/
 [marked]:https://github.com/chjj/marked
 [es2015]:http://www.ecma-international.org/ecma-262/6.0/
+[keymage]:https://github.com/piranha/keymage
