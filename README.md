@@ -7,6 +7,7 @@ A simple ES6 notepad web app powered by [Mithril.js][mithril] and [LiteStore][li
 * Create, edit, view, delete notes.
 * Markdown support.
 * Fulltext search.
+* Keyboard shortcuts.
 * Two-file setup (LiteStore executable and LiteStore database).
 * Run on localhost via LiteStore web server.
 
@@ -39,6 +40,50 @@ Because of this, LitePad is currently only supported by the following browsers:
 
 * Google Chrome 60 or higher (with the *Experimental Web Platform features* flag enabled).
 * Apple Safari 10.1 or higher.
+
+## Keyboard Shortcuts
+
+### Everywhere in the application
+
+* **CTRL+h** &mdash; Go back to the home page/reload the home page.
+* **CTRL+f** &mdash; Show search bar.
+
+### Search bar in focus
+
+* **Esc** &mdash; Hide search bar.
+* **CTRL+k** &mdash; clear search bar.
+* **Enter** &mdash; Search for the specified text in all notes.
+
+### Home Page
+
+* **CTRL+a** &mdash; Add new note.
+* **Arrow Up** &mdash; Select the next note.
+* **Arrow Down** &mdash; Select the previous note.
+* **Space** &mdash; View selected note.
+
+### Search results
+
+* **Arrow Up** &mdash; Select the next note.
+* **Arrow Down** &mdash; Select the previous note.
+* **Space** &mdash; View selected note.
+
+### View Note
+
+* **Arrow Left** &mdash; Go back to home page/search results.
+* **CTRL+e** &mdash; Edit note.
+* **CTRL+d** &mdash; Display delete note modal dialog.
+* **Esc** &mdash; (when delete note modal dialog is displayed) cancel delete.
+* **Enter** &mdash; (when delete note modal dialog is displayed) confirm delete.
+
+### Edit Note
+
+* **CTRL+s** &mdash; Save current note and keep editing.
+* **CTRL+o** &mdash; Save current note and view it.
+
+### New Note
+
+* **CTRL+o** &mdash; Save current note and view it.
+
 
 ## Credits
 
