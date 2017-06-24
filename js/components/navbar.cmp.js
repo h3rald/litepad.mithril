@@ -18,8 +18,6 @@ export class NavBarComponent {
     this.shortcut.add('esc', (e) => this.disableSearch(e));
     this.shortcut.add('ctrl-h', (e) => this.goHome(e));
     this.shortcut.add('ctrl-a', (e) => this.addNote(e));
-    this.shortcut.add('right', {excludeTags: ['input', 'textarea']}, () => history.forward());
-    this.shortcut.add('left', {excludeTags: ['input', 'textarea']}, () => history.back());
     this.shortcut.add('enter', {includeElements: 'search-input'}, (e) => this.doSearch(e));
     this.shortcut.add('ctrl-k', {includeElements: 'search-input'}, (e) => this.clearLine(e));
   }

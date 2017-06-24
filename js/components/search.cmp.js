@@ -3,6 +3,7 @@ import { FooterComponent } from './footer.cmp.js';
 import { LiteStoreService } from '../services/litestore.svc.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
+import { NoteListComponent } from './notelist.cmp.js';
 import { NotificationService } from '../services/notification.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
@@ -45,48 +46,7 @@ export class SearchComponent {
       }
     });
   }
-
-  tile(note) {
-    const modified = note.modified || note.created;
-    const subtitle = `${note.words()} &bull; ${modified}`;
-    return m(`.tile`, {
-      onclick: () => { m.route.set(`/view/${note.id}/`); },
-      'data-note-id': note.id 
-    },
-    [
-      m('.tile-icon', m('i.icon.icon-link')),
-      m('.tile-content', [
-        m('.tile-title', note.title),
-        m('.tile-subtitle', m.trust(subtitle)),
-        m('.tile-highlight', m.trust(note.highlight))
-      ]),
-    ]);
-  }
-
-  content() {
-    if (this.loading) {
-      return [m('.loading'), m('.loading-message', 'Loading...')];
-    }
-    if (!this.empty) {
-      return this.notes.map((n) => { 
-        return this.tile(n); 
-      });
-    }
-    if (this.error) {
-      return m('.toast.toast-error', 'An error occurred when loading notes.');
-    }
-    return m('.empty', [
-      m('.empty-icon', m('i.icon.icon-cross')),
-      m('h4.empty-title', "No notes found."),
-      m('p.empty-subtitle', 'There are no notes matching your search.'),
-      m('.empty-action', m('button.btn.btn-primary', {
-        onclick: () => {
-          m.route.set(`/home`);
-        }
-      }, [m('i.icon.icon-back'), ' Back to Home']))
-    ]);
-  }
-
+  
   view(){
     const actions = (this.empty) ? [] : this.actions;
     const subtitle = `Total: ${this.notes.length}`;
@@ -94,7 +54,7 @@ export class SearchComponent {
       m(NavBarComponent),
       m('main.column.col-12', [
         m(ActionBarComponent, {title: ['Search: ', m('em', this.query)], subtitle: subtitle, actions: actions}),
-        m('.main-content', this.content())
+        m('.main-content', m(NoteListComponent, {notes: this.notes}))
       ]),
       m(FooterComponent)
     ]);
