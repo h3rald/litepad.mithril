@@ -12,7 +12,6 @@ function init() {
     '/view/:id': ViewNoteComponent,
     '/view/:id/q/:q': ViewNoteComponent,
     '/edit/:id': EditNoteComponent,
-    '/edit/:id/q/:q': EditNoteComponent,
     '/new': NewNoteComponent,
     '/search/:query': SearchComponent
   });

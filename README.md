@@ -1,6 +1,6 @@
 # LitePad
 
-A simple ES6 nodepad web app powered by [Mithril.js][mithril] and [LiteStore][litestore].
+A simple ES6 notepad web app powered by [Mithril.js][mithril] and [LiteStore][litestore].
 
 ## Features
 

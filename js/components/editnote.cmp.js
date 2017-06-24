@@ -5,6 +5,7 @@ import { LiteStoreService } from '../services/litestore.svc.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
 import { NotificationService } from '../services/notification.svc.js';
+import { ShortcutService } from '../services/shortcut.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
 export class EditNoteComponent {
@@ -12,6 +13,7 @@ export class EditNoteComponent {
   constructor(){
     this.store = new LiteStoreService();
     this.notification = new NotificationService();
+    this.shortcut = new ShortcutService();
     this.id = m.route.param('id');
     this.note = {body: ""};
     this.editor = null;
@@ -19,6 +21,11 @@ export class EditNoteComponent {
     if (m.route.param('q')) {
       this.back = `/search/${m.route.param('q')}`;
     }
+    this.defineActions();
+    this.defineShortcuts();
+  }
+
+  defineActions(){
     this.actions = [];
     if (this.back) {
       this.actions.push({
@@ -43,17 +50,32 @@ export class EditNoteComponent {
       main: true,
       icon: 'check',
       callback: () => {
-        this.note.body = this.editor.getValue();
-        if (this.note.body === '' || this.note.title === '') {
-          this.notification.error('Title and body text cannot be empty.');
-        } else {
-          this.store.save(this.note).then(() => {
-            this.notification.success('Note modified successfully.');
-            m.route.set(`/view/${this.id}`);
-          }).catch(this.notification.error);
-        }
+        this.save();
       }
     });
+  }
+
+  defineShortcuts(){
+    this.shortcut.add('ctrl-s', {matchRoute: /^\/edit/}, (e) => {
+      this.save('edit');
+      return false;
+    });
+    this.shortcut.add('ctrl-o', {matchRoute: /^\/edit/}, (e) => {
+      this.save();
+      return false;
+    });
+  }
+
+  save(state='view'){
+    this.note.body = this.editor.getValue();
+    if (this.note.body === '' || this.note.title === '') {
+      this.notification.error('Title and body text cannot be empty.');
+    } else {
+      this.store.save(this.note).then(() => {
+        this.notification.success('Note modified successfully.');
+        m.route.set(`/${state}/${this.id}`);
+      }).catch(this.notification.error);
+    }
   }
 
   load(){
@@ -67,8 +89,9 @@ export class EditNoteComponent {
   }
 
   highlight() {
-    const element = document.getElementById("note-body");
-    if (element) {
+    const element = document.getElementById('note-body');
+    const editors = document.getElementsByClassName('CodeMirror');
+    if (element && editors.length == 0) {
       this.editor = CodeMirror.fromTextArea(element, {
         mode: 'markdown', 
         tabSize: 2, 

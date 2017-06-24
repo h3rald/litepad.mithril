@@ -5,6 +5,7 @@ import { LiteStoreService } from '../services/litestore.svc.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
 import { NotificationService } from '../services/notification.svc.js';
+import { ShortcutService } from '../services/shortcut.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
 export class NewNoteComponent {
@@ -12,8 +13,41 @@ export class NewNoteComponent {
   constructor(){
     this.store = new LiteStoreService();
     this.notification = new NotificationService();
+    this.shortcut = new ShortcutService();
     this.note = {title: '', body: ''};
     this.editor = null;
+    this.defineActions();
+    this.defineShortcuts();
+  }
+
+  save(state='view'){
+    let note = null;
+    this.note.body = this.editor.getValue();
+    if (this.note.body === '' || this.note.title === '') {
+      this.notification.error('Title and body text cannot be empty.');
+    } else {
+      this.store.create(this.note).then((data) => {
+        note = new Note(data);
+        return this.store.save(note);
+      }).then(() => {
+        this.notification.success(`Note '${note.title}' created successfully.`);
+        m.route.set(`/${state}/${note.id}`);
+      }).catch(this.notification.error);
+    }
+  }
+
+  defineShortcuts(){
+    this.shortcut.add('ctrl-s', {matchRoute: /^\/new/}, (e) => {
+      this.save();
+      return false;
+    });
+    this.shortcut.add('ctrl-o', {matchRoute: /^\/new/}, (e) => {
+      this.save();
+      return false;
+    });
+  }
+
+  defineActions(){
     this.actions = [
       {
         label: 'Cancel',
@@ -28,19 +62,7 @@ export class NewNoteComponent {
         main: true,
         icon: 'check',
         callback: () => {
-          let note = null;
-          this.note.body = this.editor.getValue();
-          if (this.note.body === '' || this.note.title === '') {
-            this.notification.error('Title and body text cannot be empty.');
-          } else {
-            this.store.create(this.note).then((data) => {
-              note = new Note(data);
-              return this.store.save(note);
-            }).then(() => {
-              this.notification.success(`Note '${note.title}' created successfully.`);
-              m.route.set(`/view/${note.id}`);
-            }).catch(this.notification.error);
-          }
+          this.save();
         }
       }
     ];

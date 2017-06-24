@@ -4,19 +4,18 @@
   cursor: pointer;
 }
 
-.tile:hover {
+.tile:hover, .tile.selected {
   background: #c9cfee;
 }
 
 .tile-icon {
-  width: 35px;
-  height: 35px;
-  padding-top: 7px;
+  width: 1.5em;
+  height: 1.5em;
   text-align: center;
-  margin: 0;
-  margin-left: 3px;
+  margin: 2px;
   background: #5764c6;
   color: #fff;
+  line-height: 1.2em;
 }
 
 .card {
@@ -80,12 +79,11 @@ footer {
 
 .main-content {
   height: calc(100vh - 160px);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .CodeMirror {
   height: calc(100vh - 142px);
-  overflow-y: scroll;
 }
 
 .subtitle {
@@ -125,7 +123,7 @@ footer {
   z-index: 1;
   left: 50%;
   width: auto;
-  top: 35px;
+  top: 10px;
 }
 
 #notification.show {
@@ -136,21 +134,21 @@ footer {
 
 @-webkit-keyframes fadein {
   from {top: 0; opacity: 0;} 
-  to {top: 35px; opacity: 1;}
+  to {top: 10px; opacity: 1;}
 }
 
 @keyframes fadein {
   from {top: 0; opacity: 0;}
-  to {top: 35px; opacity: 1;}
+  to {top: 10px; opacity: 1;}
 }
 
 @-webkit-keyframes fadeout {
-  from {top: 35px; opacity: 1;} 
+  from {top: 10px; opacity: 1;} 
   to {top: 0; opacity: 0;}
 }
 
 @keyframes fadeout {
-  from {top: 35px; opacity: 1;}
+  from {top: 10px; opacity: 1;}
   to {top: 0; opacity: 0;}
 }
 
@@ -160,7 +158,7 @@ footer {
 }
 
 .note {
-  margin: 0 2rem;
+  padding: 0 4rem;
 }
 
 #note-title {
@@ -191,10 +189,17 @@ footer {
   background: #f8f9fa;
 }
 
+
 .note ul,
 .note ol {
+  margin: 0.5rem 0 0.5rem 2rem;
+}
+
+.note > ul,
+.note > ol {
   margin: 0.5rem 0 0.5rem 7rem;
 }
+
 
 .note ol li,
 .note ul li {

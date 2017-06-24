@@ -1,46 +1,72 @@
 import { NotificationService } from '../services/notification.svc.js';
+import { ShortcutService } from '../services/shortcut.svc.js';
 import { m } from '../../vendor/js/mithril.js';
+import { keymage } from '../../vendor/js/keymage.js';
 
 let searching = false;
 export class NavBarComponent {
 
   constructor(){
     this.notification = new NotificationService();
+    this.shortcut = new ShortcutService();
     this.searching = false;
     this.query = '';
-    window.onkeypress = (e) => { 
-      this.handleKeyPress(e); 
-    };
+    this.defineShortcuts();
   }
 
-  handleKeyPress(e) {
-    if (e.code === 'KeyF' && (e.altKey || e.ctrlKey)) {
-      e.preventDefault();
-      this.toggleSearch();
-      m.redraw();
-    }
-    else if (e.code === 'KeyH' && (e.altKey || e.ctrlKey)) {
-      e.preventDefault();
-      searching = false;
-      m.redraw();
-      m.route.set('/home', null, {state: {key: Date.now()}});
-    }
-    if (e.code === 'KeyN' && (e.altKey || e.ctrlKey)) {
-      e.preventDefault();
-      m.route.set('/new', null, {state: {key: Date.now()}});
-    }
+  defineShortcuts() {
+    this.shortcut.add('ctrl-f', (e) => this.enableSearch(e));
+    this.shortcut.add('esc', (e) => this.disableSearch(e));
+    this.shortcut.add('ctrl-h', (e) => this.goHome(e));
+    this.shortcut.add('ctrl-a', (e) => this.addNote(e));
+    this.shortcut.add('right', {excludeTags: ['input', 'textarea']}, (e) => history.forward());
+    this.shortcut.add('left', {excludeTags: ['input', 'textarea']}, (e) => history.back());
+    this.shortcut.add('enter', {includeElements: 'search-input'}, (e) => this.doSearch(e));
+    this.shortcut.add('ctrl-k', {includeElements: 'search-input'}, (e) => this.clearLine(e));
   }
-  
-  handleSearchKeyPress(e){
-    if (e.charCode === 13){
-      e.preventDefault();
-      this.search();
-    }
-    else if (e.code === 'KeyK' && (e.altKey || e.crlKey)) {
-      e.preventDefault();
-      this.query = '';
-      m.redraw();
-    }
+
+  goHome(e) {
+    searching = false;
+    this.query = '';
+    m.redraw();
+    m.route.set('/home', null, {state: {key: Date.now()}});
+    return false;
+  }
+
+  addNote(e) {
+    m.route.set('/new', null, {state: {key: Date.now()}});
+    return false;
+  }
+
+  doSearch(e) {
+    this.search();
+  }
+
+  clearLine(e) {
+    this.query = '';
+    m.redraw();
+    return false;
+  }
+
+  enableSearch(e) {
+    this.query = '';
+    searching = true;
+    m.redraw();
+    document.getElementById('search-input').focus();
+    return false;
+  }
+
+  disableSearch(e) {
+    this.query = '';
+    searching = false;
+    m.redraw();
+    return false;
+  }
+
+  toggleSearch(){
+    this.query = '';
+    searching = !searching;
+    m.redraw();
   }
 
   search() {
@@ -48,10 +74,6 @@ export class NavBarComponent {
     const q = this.query;
     this.query = '';
     m.route.set('/search/:query', {query: q}, {state: {key: Date.now()}});
-  }
-  
-  toggleSearch(){
-    searching = !searching;
   }
   
   setQuery(text){
@@ -83,12 +105,11 @@ export class NavBarComponent {
         this.toggleSearch();
       }
     }, [m('i.icon.icon-cross')]);
-    const textbox = m('input.search.form-input', {
+    const textbox = m('input.search.form-input.#search-input', {
       placeholder: 'Search...',
       autofocus: true,
       value: this.query,
-      oninput: m.withAttr('value', this.setQuery, this),
-      onkeypress: (e) => { this.handleSearchKeyPress(e); }
+      oninput: m.withAttr('value', this.setQuery, this)
     });
     const searchLink = m('span.btn.btn-primary.input-group-btn', {
       onclick: () => { this.search(); }

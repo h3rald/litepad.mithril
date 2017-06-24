@@ -46,29 +46,20 @@ export class SearchComponent {
     });
   }
 
-  card(note) {
+  tile(note) {
     const modified = note.modified || note.created;
     const subtitle = `${note.words()} &bull; ${modified}`;
-    return m('.card', [
-      m('.card-header', [
-        m('.card-actions', [
-          m('button.btn.btn-link', {
-            onclick: () => { m.route.set(`/edit/${note.id}/q/${this.query}`); }
-          }, [
-            m('i.icon.icon-edit'),
-            ' Edit'
-          ]),
-          m('button.btn.btn-link', {
-            onclick: () => { m.route.set(`/view/${note.id}/q/${this.query}`); }
-          }, [
-            m('i.icon.icon-share'),
-            ' View'
-          ]),
-        ]),
-        m('.card-title', note.title),
-        m('.card-subtitle', m.trust(subtitle))
+    return m(`.tile`, {
+      onclick: () => { m.route.set(`/view/${note.id}/`); },
+      'data-note-id': note.id 
+    },
+    [
+      m('.tile-icon', m('i.icon.icon-link')),
+      m('.tile-content', [
+        m('.tile-title', note.title),
+        m('.tile-subtitle', m.trust(subtitle)),
+        m('.tile-highlight', m.trust(note.highlight))
       ]),
-      m('.card-body', m.trust(note.highlight))
     ]);
   }
 
@@ -78,7 +69,7 @@ export class SearchComponent {
     }
     if (!this.empty) {
       return this.notes.map((n) => { 
-        return this.card(n); 
+        return this.tile(n); 
       });
     }
     if (this.error) {

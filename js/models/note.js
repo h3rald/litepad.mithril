@@ -16,7 +16,7 @@ export class Note {
 
   formatHighlight(highlight) {
     if (highlight) {
-      return highlight.replace(/^"|\*+|_+|"$/g, '').replace(/\\n/g, ' ');
+      return highlight.replace(/^"|\*+|_+|"$/g, '').replace(/\\n|\\t/g, ' ');
     }
     return null;
   }

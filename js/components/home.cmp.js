@@ -4,6 +4,7 @@ import { LiteStoreService } from '../services/litestore.svc.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
 import { NotificationService } from '../services/notification.svc.js';
+import { ShortcutService } from '../services/shortcut.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
 export class HomeComponent {
@@ -11,14 +12,17 @@ export class HomeComponent {
   constructor(){
     this.store = new LiteStoreService();
     this.notification = new NotificationService();
+    this.shortcut = new ShortcutService();
     this.notes = [];
     this.loading = true;
     this.error = false;
     this.empty = false;
+    this.selected = null;
     this.load();
+    this.defineShortcuts();
     this.actions = [
       {
-        label: 'New',
+        label: 'Add',
         main: true,
         icon: 'plus',
         callback: () => {
@@ -26,6 +30,17 @@ export class HomeComponent {
         }
       }
     ];
+  }
+
+  defineShortcuts() {
+    this.shortcut.add('up', {matchRoute: /^\/home/}, () => this.selectPrevious());
+    this.shortcut.add('down', {matchRoute: /^\/home/}, () => this.selectNext());
+    this.shortcut.add('space', {matchRoute: /^\/home/}, () => {
+      if (this.selected) {
+        m.route.set(`/view/${this.selected.dataset.noteId}`);
+      }
+      return false;
+    });
   }
 
   load(){
@@ -45,14 +60,52 @@ export class HomeComponent {
     });
   }
 
+  select(tile) {
+    this.deselect();
+    tile.classList.add('selected');
+    tile.scrollIntoView();
+    this.selected = tile;
+  }
+
+  deselect() {
+    const tiles = Array.from(document.getElementsByClassName('tile'));
+    tiles.forEach((t) => t.classList.remove('selected'));
+    this.selected = null;
+  }
+
+  selectNext() {
+    const tiles = Array.from(document.getElementsByClassName('tile'));
+    if (!this.selected) {
+      if (tiles.length > 0) {
+        this.select(tiles[0]);
+      }     
+    } else {
+      const index = tiles.indexOf(this.selected);
+      if (index < tiles.length-1) {
+        this.select(tiles[index+1]);
+      }
+    }
+  }
+
+  selectPrevious() {
+    if (this.selected) {
+      const tiles = Array.from(document.getElementsByClassName('tile'));
+      const index = tiles.indexOf(this.selected);
+      if (index > 0) {
+        this.select(tiles[index-1]);
+      }
+    }
+  }
+
   tile(note) {
     const modified = note.modified || note.created;
     const subtitle = `${note.words()} &bull; ${modified}`;
-    return m('.tile.tile-centered', {
-      onclick: () => { m.route.set(`/view/${note.id}`); }
+    return m(`.tile`, {
+      onclick: () => { m.route.set(`/view/${note.id}`); },
+      'data-note-id': note.id 
     },
     [
-      m('.tile-icon', m('i.icon.icon-arrow-right.centered')),
+      m('.tile-icon', m('i.icon.icon-link.centered')),
       m('.tile-content', [
         m('.tile-title', note.title),
         m('.tile-subtitle', m.trust(subtitle))

@@ -5,6 +5,7 @@ import { ModalComponent } from './modal.cmp.js';
 import { NavBarComponent } from './navbar.cmp.js';
 import { Note } from '../models/note.js';
 import { NotificationService } from '../services/notification.svc.js';
+import { ShortcutService } from '../services/shortcut.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 import { marked } from '../../vendor/js/marked.js';
 
@@ -13,16 +14,13 @@ export class ViewNoteComponent {
   constructor(){
     this.store = new LiteStoreService();
     this.notification = new NotificationService();
+    this.shortcut = new ShortcutService();
     this.id = m.route.param('id');
     this.note = {body: ""};
     this.message = {};
-    this.delete = false;
+    this.deleting = false;
     this.load();
-    if (m.route.param('q')) {
-      this.back = `/search/${m.route.param('q')}`;
-    } else {
-      this.back = '/home';
-    }
+    this.defineShortcuts();
     marked.setOptions({
       renderer: new marked.Renderer(),
       gfm: true,
@@ -33,13 +31,17 @@ export class ViewNoteComponent {
       smartLists: true,
       smartypants: true
     });
+    this.defineActions();
+  }
+
+  defineActions(){
     this.actions = [
       {
         label: 'Back',
         main: false,
         icon: 'back',
         callback: () => {
-          m.route.set(this.back);
+          history.back();
         }
       },
       {
@@ -61,14 +63,49 @@ export class ViewNoteComponent {
     ];
   }
 
+  defineShortcuts(){
+    this.shortcut.add('ctrl-e', {matchRoute: /^\/view/}, (e) => {
+      m.route.set(`/edit/${m.route.param('id')}`);
+      return false;
+    });
+    this.shortcut.add('ctrl-d', {matchRoute: /^\/view/}, (e) => {
+      this.deleting = true;
+      m.redraw();
+      return false;
+    });
+    this.shortcut.add('esc', {matchRoute: /^\/view/}, (e) => {
+      if (this.deleting) {
+        this.delete = false;
+        m.redraw();
+      }
+      return false;
+    });
+    this.shortcut.add('enter', {matchRoute: /^\/view/}, (e) => {
+      if (this.deleting) {
+        this.delete();
+      }
+      return false;
+    });
+  }
+
   load(){
     this.store.get(this.id).then((note) => {
       this.note = new Note(note);
     });
   }
 
+  delete(){
+    this.store.delete(this.note).then(() => {
+      this.notification.success('Note deleted successfully.');
+      m.route.set('/home');
+    }).catch((e) => {
+      this.deleting = false;
+      this.notification.error(e);
+    });
+  }
+
   modal() {
-    if (this.delete) {
+    if (this.deleting) {
       return m(ModalComponent, {
         title: 'Delete Note',
         message: 'Do you want to really delete this note?',
@@ -78,7 +115,7 @@ export class ViewNoteComponent {
             icon: 'stop',
             type: 'link',
             callback: () => {
-              this.delete = false;
+              this.deleting = false;
               m.redraw();
             }
           },
@@ -87,13 +124,7 @@ export class ViewNoteComponent {
             icon: 'delete',
             type: 'primary',
             callback: () => {
-              this.store.delete(this.note).then(() => {
-                this.notification.success('Note deleted successfully.');
-                m.route.set('/home');
-              }).catch((e) => {
-                this.delete = false;
-                this.notification.error(e);
-              });
+              this.delete();
             }
           }
         ]
