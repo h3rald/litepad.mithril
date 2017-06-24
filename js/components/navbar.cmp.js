@@ -1,7 +1,6 @@
 import { NotificationService } from '../services/notification.svc.js';
 import { ShortcutService } from '../services/shortcut.svc.js';
 import { m } from '../../vendor/js/mithril.js';
-import { keymage } from '../../vendor/js/keymage.js';
 
 let searching = false;
 export class NavBarComponent {
@@ -19,13 +18,13 @@ export class NavBarComponent {
     this.shortcut.add('esc', (e) => this.disableSearch(e));
     this.shortcut.add('ctrl-h', (e) => this.goHome(e));
     this.shortcut.add('ctrl-a', (e) => this.addNote(e));
-    this.shortcut.add('right', {excludeTags: ['input', 'textarea']}, (e) => history.forward());
-    this.shortcut.add('left', {excludeTags: ['input', 'textarea']}, (e) => history.back());
+    this.shortcut.add('right', {excludeTags: ['input', 'textarea']}, () => history.forward());
+    this.shortcut.add('left', {excludeTags: ['input', 'textarea']}, () => history.back());
     this.shortcut.add('enter', {includeElements: 'search-input'}, (e) => this.doSearch(e));
     this.shortcut.add('ctrl-k', {includeElements: 'search-input'}, (e) => this.clearLine(e));
   }
 
-  goHome(e) {
+  goHome() {
     searching = false;
     this.query = '';
     m.redraw();
@@ -33,22 +32,22 @@ export class NavBarComponent {
     return false;
   }
 
-  addNote(e) {
+  addNote() {
     m.route.set('/new', null, {state: {key: Date.now()}});
     return false;
   }
 
-  doSearch(e) {
+  doSearch() {
     this.search();
   }
 
-  clearLine(e) {
+  clearLine() {
     this.query = '';
     m.redraw();
     return false;
   }
 
-  enableSearch(e) {
+  enableSearch() {
     this.query = '';
     searching = true;
     m.redraw();
@@ -56,7 +55,7 @@ export class NavBarComponent {
     return false;
   }
 
-  disableSearch(e) {
+  disableSearch() {
     this.query = '';
     searching = false;
     m.redraw();

@@ -37,11 +37,11 @@ export class NewNoteComponent {
   }
 
   defineShortcuts(){
-    this.shortcut.add('ctrl-s', {matchRoute: /^\/new/}, (e) => {
+    this.shortcut.add('ctrl-s', {matchRoute: /^\/new/}, () => {
       this.save();
       return false;
     });
-    this.shortcut.add('ctrl-o', {matchRoute: /^\/new/}, (e) => {
+    this.shortcut.add('ctrl-o', {matchRoute: /^\/new/}, () => {
       this.save();
       return false;
     });

@@ -75,19 +75,17 @@ export class HomeComponent {
 
   selectNext() {
     const tiles = Array.from(document.getElementsByClassName('tile'));
-    if (!this.selected) {
-      if (tiles.length > 0) {
-        this.select(tiles[0]);
-      }     
-    } else {
+    if (this.selected) {
       const index = tiles.indexOf(this.selected);
       if (index < tiles.length-1) {
         this.select(tiles[index+1]);
       }
-    }
+    } else if (tiles.length > 0) {
+      this.select(tiles[0]);
+    }     
   }
 
-  selectPrevious() {
+  selectPrevious(){
     if (this.selected) {
       const tiles = Array.from(document.getElementsByClassName('tile'));
       const index = tiles.indexOf(this.selected);

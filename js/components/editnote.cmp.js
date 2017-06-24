@@ -56,11 +56,11 @@ export class EditNoteComponent {
   }
 
   defineShortcuts(){
-    this.shortcut.add('ctrl-s', {matchRoute: /^\/edit/}, (e) => {
+    this.shortcut.add('ctrl-s', {matchRoute: /^\/edit/}, () => {
       this.save('edit');
       return false;
     });
-    this.shortcut.add('ctrl-o', {matchRoute: /^\/edit/}, (e) => {
+    this.shortcut.add('ctrl-o', {matchRoute: /^\/edit/}, () => {
       this.save();
       return false;
     });
@@ -91,7 +91,7 @@ export class EditNoteComponent {
   highlight() {
     const element = document.getElementById('note-body');
     const editors = document.getElementsByClassName('CodeMirror');
-    if (element && editors.length == 0) {
+    if (element && editors.length === 0) {
       this.editor = CodeMirror.fromTextArea(element, {
         mode: 'markdown', 
         tabSize: 2, 

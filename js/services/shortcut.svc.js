@@ -32,7 +32,7 @@ class Shortcut {
 
 export class ShortcutService {
 
-  constructor(version){
+  constructor(){
     if (!instance) {
       this.shortcuts = [];
       instance = this;
@@ -51,14 +51,14 @@ export class ShortcutService {
   }
 
   remove(s1){
-    const shortcuts = []
+    const shortcuts = [];
     this.shortcuts.forEach((s0) => {
       if (s1.equals(s0)){
         s0.unbind();
       } else {
         shortcuts.push(s0);
       }
-    })
+    });
     this.shortcuts = shortcuts;
   }
 }
