@@ -37,10 +37,6 @@ export class NewNoteComponent {
   }
 
   defineShortcuts(){
-    this.shortcut.add('ctrl-s', {local: true}, () => {
-      this.save();
-      return false;
-    });
     this.shortcut.add('ctrl-o', {local: true}, () => {
       this.save();
       return false;
