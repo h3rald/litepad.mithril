@@ -64,23 +64,23 @@ export class ViewNoteComponent {
   }
 
   defineShortcuts(){
-    this.shortcut.add('ctrl-e', {matchRoute: /^\/view/}, () => {
+    this.shortcut.add('ctrl-e', {local: true}, () => {
       m.route.set(`/edit/${m.route.param('id')}`);
       return false;
     });
-    this.shortcut.add('ctrl-d', {matchRoute: /^\/view/}, () => {
+    this.shortcut.add('ctrl-d', {local: true}, () => {
       this.deleting = true;
       m.redraw();
       return false;
     });
-    this.shortcut.add('esc', {matchRoute: /^\/view/}, () => {
+    this.shortcut.add('esc', {local: true}, () => {
       if (this.deleting) {
         this.delete = false;
         m.redraw();
       }
       return false;
     });
-    this.shortcut.add('enter', {matchRoute: /^\/view/}, () => {
+    this.shortcut.add('enter', {local: true}, () => {
       if (this.deleting) {
         this.delete();
       }

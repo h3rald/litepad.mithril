@@ -6,7 +6,7 @@ let instance = null;
 class Shortcut {
   constructor(k, options, callback) {
     this.key = k;
-    this.matchRoute = options.matchRoute;
+    this.local = options.local ? this.getLocalState() : null;
     this.includeElements = options.includeElements || [];
     this.excludeTags = options.excludeTags || [];
     this.callback = callback;
@@ -15,15 +15,19 @@ class Shortcut {
     });
   }
 
+  getLocalState(){
+    return new RegExp(`^/${m.route.get().split('/')[0]}`);
+  }
+
   equals(s) {
     return this.key === s.key && this.matchRoute === s.matchRoute && this.includeElements === s.includeElements;
   }
 
   exec(event) {
-    const routeIncluded = !this.matchRoute || m.route.get().match(this.matchRoute);
+    const isLocal = !this.local || m.route.get().match(this.local);
     const elementIncluded = this.includeElements.length === 0 || this.includeElements.includes(event.srcElement.id);
     const tagNotExcluded = this.excludeTags.length === 0 || !this.excludeTags.includes(event.srcElement.tagName);
-    if (routeIncluded && elementIncluded && tagNotExcluded) {
+    if (isLocal && elementIncluded && tagNotExcluded) {
       return this.callback(event);
     }
     return true;
