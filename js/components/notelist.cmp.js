@@ -9,6 +9,8 @@ export class NoteListComponent {
     this.selectedTile = null;
     this.notes = null;
     this.shortcut = new ShortcutService();
+    this.q = m.route.param('q');
+    this.search = this.q ? `/q/${this.q}` : '';
     this.defineShortcuts();
   }
 
@@ -17,7 +19,7 @@ export class NoteListComponent {
     this.shortcut.add('down', () => this.selectNext());
     this.shortcut.add('space', () => {
       if (this.selected) {
-        m.route.set(`/view/${this.selected.id}`);
+        m.route.set(`/view/${this.selected.id}${this.search}`);
       }
       return false;
     });
@@ -79,7 +81,7 @@ export class NoteListComponent {
       content.push(m('.tile-highlight', m.trust(note.highlight)));
     }
     return m(`.tile${selected}`, {
-        onclick: () => { m.route.set(`/view/${note.id}`); },
+        onclick: () => { m.route.set(`/view/${note.id}${this.search}`); },
         'data-note-id': note.id 
       },
       [

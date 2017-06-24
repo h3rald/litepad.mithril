@@ -70,7 +70,7 @@ export class NavBarComponent {
     searching = false;
     const q = this.query;
     this.query = '';
-    m.route.set('/search/:query', {query: q}, {state: {key: Date.now()}});
+    m.route.set('/search/:q', {q: q}, {state: {key: Date.now()}});
   }
   
   setQuery(text){

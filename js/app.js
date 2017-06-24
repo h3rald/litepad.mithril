@@ -13,7 +13,7 @@ function init() {
     '/view/:id/q/:q': ViewNoteComponent,
     '/edit/:id': EditNoteComponent,
     '/new': NewNoteComponent,
-    '/search/:query': SearchComponent
+    '/search/:q': SearchComponent
   });
 }
 

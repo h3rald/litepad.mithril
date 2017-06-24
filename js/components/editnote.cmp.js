@@ -18,41 +18,28 @@ export class EditNoteComponent {
     this.note = {body: ""};
     this.editor = null;
     this.load();
-    if (m.route.param('q')) {
-      this.back = `/search/${m.route.param('q')}`;
-    }
     this.defineActions();
     this.defineShortcuts();
   }
 
   defineActions(){
-    this.actions = [];
-    if (this.back) {
-      this.actions.push({
-        label: 'Back',
+    this.actions = [
+      {
+        label: 'Cancel',
         main: false,
-        icon: 'back',
+        icon: 'stop',
         callback: () => {
-          m.route.set(this.back);
+          m.route.set(`/view/${this.id}`);
         }
-      });
-    }
-    this.actions.push({
-      label: 'Cancel',
-      main: false,
-      icon: 'stop',
-      callback: () => {
-        m.route.set(`/view/${this.id}`);
-      }
-    });
-    this.actions.push({
+      },
+    {
       label: 'Save',
       main: true,
       icon: 'check',
       callback: () => {
         this.save();
       }
-    });
+    }];
   }
 
   defineShortcuts(){

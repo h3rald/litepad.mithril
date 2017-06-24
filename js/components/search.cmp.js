@@ -13,7 +13,7 @@ export class SearchComponent {
     this.store = new LiteStoreService();
     this.notification = new NotificationService();
     this.notes = [];
-    this.query = m.route.param('query');
+    this.query = m.route.param('q');
     this.loading = true;
     this.error = false;
     this.empty = false;

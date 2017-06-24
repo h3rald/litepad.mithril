@@ -15,6 +15,8 @@ export class ViewNoteComponent {
     this.store = new LiteStoreService();
     this.notification = new NotificationService();
     this.shortcut = new ShortcutService();
+    this.q = m.route.param('q');
+    this.back = this.q ? `/search/${this.q}` : '/home';
     this.id = m.route.param('id');
     this.note = {body: ""};
     this.message = {};
@@ -41,7 +43,7 @@ export class ViewNoteComponent {
         main: false,
         icon: 'back',
         callback: () => {
-          history.back();
+          m.route.set(this.back);
         }
       },
       {
@@ -64,6 +66,10 @@ export class ViewNoteComponent {
   }
 
   defineShortcuts(){
+    this.shortcut.add('left', {local: true}, () => {
+      m.route.set(this.back);
+      return false;
+    });
     this.shortcut.add('ctrl-e', {local: true}, () => {
       m.route.set(`/edit/${m.route.param('id')}`);
       return false;
