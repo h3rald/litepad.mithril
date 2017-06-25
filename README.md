@@ -48,12 +48,6 @@ Because of this, LitePad is currently only supported by the following browsers:
 * **CTRL+h** &mdash; Go back to the home page/reload the home page.
 * **CTRL+f** &mdash; Show search bar.
 
-### Search bar in focus
-
-* **Esc** &mdash; Hide search bar.
-* **CTRL+k** &mdash; clear search bar.
-* **Enter** &mdash; Search for the specified text in all notes.
-
 ### Home Page
 
 * **CTRL+a** &mdash; Add new note.
@@ -75,13 +69,9 @@ Because of this, LitePad is currently only supported by the following browsers:
 * **Esc** &mdash; (when delete note modal dialog is displayed) cancel delete.
 * **Enter** &mdash; (when delete note modal dialog is displayed) confirm delete.
 
-### Edit Note
+### Edit Note/New Note
 
 * **CTRL+s** &mdash; Save current note and keep editing.
-* **CTRL+o** &mdash; Save current note and view it.
-
-### New Note
-
 * **CTRL+o** &mdash; Save current note and view it.
 
 

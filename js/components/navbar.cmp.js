@@ -2,28 +2,28 @@ import { NotificationService } from '../services/notification.svc.js';
 import { ShortcutService } from '../services/shortcut.svc.js';
 import { m } from '../../vendor/js/mithril.js';
 
-let searching = false;
 export class NavBarComponent {
 
   constructor(){
     this.notification = new NotificationService();
     this.shortcut = new ShortcutService();
-    this.searching = false;
-    this.query = '';
+    this.query = m.route.param('q');
+    if (this.query) {
+      this.searching = true;
+    } else {
+      this.searching = false;
+    }
     this.defineShortcuts();
   }
 
   defineShortcuts() {
     this.shortcut.add('ctrl-f', (e) => this.enableSearch(e));
-    this.shortcut.add('esc', (e) => this.disableSearch(e));
     this.shortcut.add('ctrl-h', (e) => this.goHome(e));
     this.shortcut.add('ctrl-a', (e) => this.addNote(e));
-    this.shortcut.add('enter', {includeElements: 'search-input'}, (e) => this.doSearch(e));
-    this.shortcut.add('ctrl-k', {includeElements: 'search-input'}, (e) => this.clearLine(e));
   }
 
   goHome() {
-    searching = false;
+    this.searching = false;
     this.query = '';
     m.redraw();
     m.route.set('/home', null, {state: {key: Date.now()}});
@@ -47,7 +47,7 @@ export class NavBarComponent {
 
   enableSearch() {
     this.query = '';
-    searching = true;
+    this.searching = true;
     m.redraw();
     document.getElementById('search-input').focus();
     return false;
@@ -55,21 +55,18 @@ export class NavBarComponent {
 
   disableSearch() {
     this.query = '';
-    searching = false;
+    this.searching = false;
     m.redraw();
-    return false;
   }
 
   toggleSearch(){
     this.query = '';
-    searching = !searching;
+    this.searching = !this.searching;
     m.redraw();
   }
 
   search() {
-    searching = false;
     const q = this.query;
-    this.query = '';
     m.route.set('/search/:q', {q: q}, {state: {key: Date.now()}});
   }
   
@@ -111,7 +108,9 @@ export class NavBarComponent {
     const searchLink = m('span.btn.btn-primary.input-group-btn', {
       onclick: () => { this.search(); }
     }, [m('i.icon.icon-search')]);
-    return m('.input-group.searchbar', [
+    return m('form.input-group.searchbar', {
+      onsubmit: () => this.search()
+    }, [
       backLink,
       textbox,
       searchLink
@@ -119,7 +118,7 @@ export class NavBarComponent {
   }
   
   view(){
-    const contents = (searching) ? this.buildSearchBar() : this.buildStatusBar();
+    const contents = (this.searching) ? this.buildSearchBar() : this.buildStatusBar();
     return m('header.navbar', [
       this.notification.display(),
       contents

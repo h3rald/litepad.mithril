@@ -20,7 +20,7 @@ class Shortcut {
   }
 
   equals(s) {
-    return this.key === s.key && this.matchRoute === s.matchRoute && this.includeElements === s.includeElements;
+    return this.key === s.key;
   }
 
   exec(event) {

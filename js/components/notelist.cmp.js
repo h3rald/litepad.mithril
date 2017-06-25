@@ -15,9 +15,9 @@ export class NoteListComponent {
   }
 
   defineShortcuts() {
-    this.shortcut.add('up', () => this.selectPrevious());
-    this.shortcut.add('down', () => this.selectNext());
-    this.shortcut.add('space', () => {
+    this.shortcut.add('up', {excludeTags: ['INPUT', 'TEXTAREA']}, () => this.selectPrevious());
+    this.shortcut.add('down', {excludeTags: ['INPUT', 'TEXTAREA']}, () => this.selectNext());
+    this.shortcut.add('space', {excludeTags: ['INPUT', 'TEXTAREA']}, () => {
       if (this.selected) {
         m.route.set(`/view/${this.selected.id}${this.search}`);
       }

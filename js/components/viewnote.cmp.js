@@ -51,7 +51,8 @@ export class ViewNoteComponent {
         main: false,
         icon: 'delete',
         callback: () => {
-          this.delete = true;
+          this.deleting = true;
+          m.redraw();
         }
       },
       {
@@ -81,7 +82,7 @@ export class ViewNoteComponent {
     });
     this.shortcut.add('esc', {local: true}, () => {
       if (this.deleting) {
-        this.delete = false;
+        this.deleting = false;
         m.redraw();
       }
       return false;
@@ -122,7 +123,6 @@ export class ViewNoteComponent {
             type: 'link',
             callback: () => {
               this.deleting = false;
-              m.redraw();
             }
           },
           {
