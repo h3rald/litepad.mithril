@@ -92,22 +92,32 @@ export class NoteListComponent {
 
   view(vnode) {
     this.notes = vnode.attrs.notes;
-    if (this.notes) {
+    if (this.notes instanceof Array) {
       this.loading = false;
     }
     if (this.loading) {
       return [m('.loading'), m('.loading-message', 'Loading...')];
     }
     if (this.empty()) {
+      let emptyTitle = "There are no notes.";
+      let emptySubtitle = 'Click the button to create a new note.';
+      let emptyRoute = '/new';
+      let emptyIcon = [m('i.icon.icon-plus'), ' New Note'];
+      if (this.q) {
+        emptyIcon = [m('i.icon.icon-back'), ' Go Home'];
+        emptyTitle = "No notes found.";
+        emptySubtitle = "There are no notes matching your search.";
+        emptyRoute = '/home';
+      }
       return m('.empty', [
         m('.empty-icon', m('i.icon.icon-cross')),
-        m('h4.empty-title', "There are no notes."),
-        m('p.empty-subtitle', 'Click the button to create a new note.'),
+        m('h4.empty-title', emptyTitle),
+        m('p.empty-subtitle', emptySubtitle),
         m('.empty-action', m('button.btn.btn-primary', {
           onclick: () => {
-            m.route.set(`/new`);
+            m.route.set(emptyRoute);
           }
-        }, [m('i.icon.icon-plus'), ' New Note']))
+        }, emptyIcon))
       ]);
     }
     if (this.error) {

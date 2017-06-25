@@ -105,7 +105,7 @@ export class NavBarComponent {
       value: this.query,
       oninput: m.withAttr('value', this.setQuery, this)
     });
-    const searchLink = m('span.btn.btn-primary.input-group-btn', {
+    const searchLink = m('button[type=submit].btn.btn-primary.input-group-btn', {
       onclick: () => { this.search(); }
     }, [m('i.icon.icon-search')]);
     return m('form.input-group.searchbar', {

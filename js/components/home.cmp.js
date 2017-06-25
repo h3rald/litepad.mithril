@@ -31,13 +31,13 @@ export class HomeComponent {
     this.store.getAll().then((notes) => {
       this.error = false;
       this.loading = false;
-      this.empty = false;
       this.notes = notes.results.map((note) => new Note(note));
     }).catch((e) => {
       this.loading = false;
+      this.notes = [];
       const message = this.notification.error(e);
       if (message === 'No documents found.') {
-        this.empty = true;
+        this.error = false;
       } else {
         this.error = true;
       }
@@ -45,7 +45,7 @@ export class HomeComponent {
   }
 
   view(){
-    const actions = (this.empty) ? [] : this.actions;
+    const actions = (this.notes && this.notes.length === 0) ? [] : this.actions;
     const subtitle = (this.notes && this.notes.length > 0) ? `Total: ${this.notes.length}` : null;
     return m('article.columns', [
       m(NavBarComponent),
