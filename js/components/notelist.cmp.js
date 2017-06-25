@@ -100,9 +100,9 @@ export class NoteListComponent {
     }
     if (this.empty()) {
       let emptyTitle = "There are no notes.";
-      let emptySubtitle = 'Click the button to create a new note.';
+      let emptySubtitle = 'Click the button to add a new note.';
       let emptyRoute = '/new';
-      let emptyIcon = [m('i.icon.icon-plus'), ' New Note'];
+      let emptyIcon = [m('i.icon.icon-plus'), ' Add'];
       if (this.q) {
         emptyIcon = [m('i.icon.icon-back'), ' Go Home'];
         emptyTitle = "No notes found.";
