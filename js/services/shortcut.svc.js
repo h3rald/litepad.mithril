@@ -16,7 +16,7 @@ class Shortcut {
   }
 
   getLocalState(){
-    return new RegExp(`^/${m.route.get().split('/')[0]}`);
+    return new RegExp(`^/${m.route.get().split('/')[1]}`);
   }
 
   equals(s) {
