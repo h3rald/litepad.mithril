@@ -1,5 +1,5 @@
-import { keymage } from '../../vendor/js/keymage.js';
-import { m } from '../../vendor/js/mithril.js';
+import { keymage } from ‘../../vendor/js/keymage.js’;
+import { m } from ‘../../vendor/js/mithril.js’;
 
 let instance = null;
 
@@ -16,7 +16,7 @@ class Shortcut {
   }
 
   getLocalState(){
-    return new RegExp(`^/${m.route.get().split('/')[1]}`);
+    return new RegExp(`^/${m.route.get().split(‘/‘)[1]}`);
   }
 
   equals(s) {
@@ -25,8 +25,8 @@ class Shortcut {
 
   exec(event) {
     const isLocal = !this.local || m.route.get().match(this.local);
-    const elementIncluded = this.includeElements.length === 0 || this.includeElements.includes(event.srcElement.id);
-    const tagNotExcluded = this.excludeTags.length === 0 || !this.excludeTags.includes(event.srcElement.tagName);
+    const elementIncluded = this.includeElements.length === 0 || this.includeElements.includes(event.target.id);
+    const tagNotExcluded = this.excludeTags.length === 0 || !this.excludeTags.includes(event.target.tagName);
     if (isLocal && elementIncluded && tagNotExcluded) {
       return this.callback(event);
     }
