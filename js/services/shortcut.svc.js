@@ -1,5 +1,5 @@
-import { keymage } from ‘../../vendor/js/keymage.js’;
-import { m } from ‘../../vendor/js/mithril.js’;
+import { keymage } from "../../vendor/js/keymage.js";
+import { m } from "../../vendor/js/mithril.js";
 
 let instance = null;
 
@@ -16,7 +16,7 @@ class Shortcut {
   }
 
   getLocalState(){
-    return new RegExp(`^/${m.route.get().split(‘/‘)[1]}`);
+    return new RegExp(`^/${m.route.get().split("/")[1]}`);
   }
 
   equals(s) {
